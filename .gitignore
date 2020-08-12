@@ -1,0 +1,16 @@
+*.o
+*.txt
+*.out
+*.py
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+test
+test*
