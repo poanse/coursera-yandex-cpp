@@ -43,7 +43,9 @@ protected:
   // реализации должны вызывать PassOn, чтобы передать объект дальше
   // по цепочке обработчиков
   void PassOn(unique_ptr<Email> email) const {
-		_next->Process(move(email));
+		if (_next) {
+			_next->Process(move(email));
+		}
 	}
 
 public:
@@ -138,7 +140,10 @@ public:
 
 	void Process(unique_ptr<Email> email) {
 		//cerr << "Sender process" << endl;
-		_os << *email;
+		if (email) {
+			_os << *email;
+		}
+		PassOn(move(email));
 		//cerr << "email sent" << endl;
 	}
 

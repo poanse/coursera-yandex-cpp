@@ -3,8 +3,10 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <list>
+#include <deque>
 
 using namespace std;
 
@@ -21,66 +23,42 @@ class Database {
 public:
   bool Put(const Record& record) 
 	{
-		//cerr << "putting..." << endl;
 		if (1 == id_index.count(record.id)) {
 			return false;
 		}
 		data.push_front(record);
-		auto it = data.begin();
-		id_index[record.id] = it;
-		//Record* p = &data.front();
-		//id_index[record.id] = p;
-		Record* p = &(*it);
-		timestamp_index.insert({record.timestamp, p});
-		karma_index.insert({record.karma, p});
-		user_index.insert({record.user, p});
+		auto data_it = data.begin();
+
+		auto time_it = timestamp_index.insert({record.timestamp, data_it});
+		auto karma_it = karma_index.insert({record.karma, data_it});
+		auto user_it = user_index.insert({data_it->user, data_it});
+
+		id_index.insert({data_it->id, {data_it, user_it, karma_it, time_it}});
 		return true;
 	}
 
   const Record* GetById(const string& id) const 
 	{
-		if (0 == id_index.count(id)) {
+		auto id_it = id_index.find(id);
+		if (id_index.end() == id_it) {
 			return nullptr;
 		}
-		return &(*id_index.at(id));
+		return &(*id_it->second.data_it);
 	}
 
   bool Erase(const string& id)
 	{
-		if (0 == id_index.count(id)) {
+		auto id_it = id_index.find(id);
+		if (id_index.end() == id_it) {
 			return false;
 		}
-		//auto it = id_index.find(id);
-		//Record* p = it->second;
-		//id_index.erase(it);
-		auto it = id_index.find(id);
-		auto data_it = it->second;
-		Record* p = &(*data_it);
-		id_index.erase(it);
 
-		auto time_it = timestamp_index.lower_bound(p->timestamp);
-		while (id != time_it->second->id) {
-			time_it++;
-		}
-		timestamp_index.erase(time_it);
-
-		auto karma_it = karma_index.lower_bound(p->karma);
-		while (id != karma_it->second->id) {
-			karma_it++;
-		}
-		karma_index.erase(karma_it);
-
-		auto user_it = user_index.lower_bound(p->user);
-		while (id != user_it->second->id) {
-			user_it++;
-		}
-		user_index.erase(user_it);
-		
-		//data.remove_if(
-				//[p](Record& record){ 
-					//return record.id == p->id;
-				//}
-		//);
+		const auto& recit = id_it->second;
+		timestamp_index.erase(recit.timestamp_index_it);
+		karma_index.erase(recit.karma_index_it);
+		user_index.erase(recit.user_index_it);
+		auto data_it = recit.data_it;
+		id_index.erase(id_it);
 		data.erase(data_it);
 		return true;
 	}
@@ -88,43 +66,48 @@ public:
   template <typename Callback>
   void RangeByTimestamp(int low, int high, Callback callback) const
 	{
-		auto low_it = timestamp_index.lower_bound(low);
-		auto high_it = timestamp_index.upper_bound(high);
-		while (low_it != high_it && callback(*low_it->second)) {
-			low_it++;
+		auto it = timestamp_index.lower_bound(low);
+		while ((it != timestamp_index.end()) && (it->first <= high) && 
+				callback(*it->second)) {
+			it++;
 		}
 	}
 
   template <typename Callback>
   void RangeByKarma(int low, int high, Callback callback) const
 	{
-		//cerr << "rangebykarma..." << endl;
-		auto low_it = karma_index.lower_bound(low);
-		auto high_it = karma_index.upper_bound(high);
-		while (low_it != high_it && callback(*low_it->second)) {
-			low_it++;
+		auto it = karma_index.lower_bound(low);
+		while ((it != karma_index.end()) && (it->first <= high) && 
+				callback(*it->second)) {
+			it++;
 		}
 	}
 
   template <typename Callback>
   void AllByUser(const string& user, Callback callback) const
 	{
-		auto low_it = user_index.lower_bound(user);
-		auto high_it = user_index.upper_bound(user);
-		while (low_it != high_it && callback(*low_it->second)) {
-			low_it++;
+		auto range = user_index.equal_range(user);
+		for (auto it = range.first; 
+				 it != range.second && callback(*it->second); 
+				 it++) 
+		{
 		}
 	}
 private:
+	using DataIter = list<Record>::iterator;
+	struct RecIt {
+		list<Record>::iterator data_it;
+		multimap<string_view, DataIter>::iterator user_index_it;
+		multimap<int, DataIter>::iterator karma_index_it;
+		multimap<int, DataIter>::iterator timestamp_index_it;
+	};
+
 	list<Record> data;
-	//unordered_map<string, Record*> id_index; // map by id
-	unordered_map<string, list<Record>::iterator> id_index; // map by id
-	multimap<int, Record*> timestamp_index;//multimap by timestamp
-	multimap<int, Record*> karma_index;//multimap by karma
-	multimap<string, Record*> user_index;//multimap by user
+	unordered_map<string_view, RecIt> id_index; // map by id
+	multimap<string_view, DataIter> user_index;//multimap by user
+	multimap<int, DataIter> timestamp_index;//multimap by timestamp
+	multimap<int, DataIter> karma_index;//multimap by karma
 };
-
-
 
 
 void TestRangeBoundaries() {

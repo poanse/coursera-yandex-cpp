@@ -11,52 +11,67 @@ private:
   T *_ptr = nullptr;
 public:
   UniquePtr() {}
-  UniquePtr(T * ptr) {
-		_ptr = ptr;
+  UniquePtr(T *ptr)
+		: _ptr(ptr)
+	{
 	}
-  UniquePtr(const UniquePtr&) = delete;
+
   UniquePtr(UniquePtr&& other) {
-		_ptr = other.release();
+		_ptr = other.Release();
 	}
-  UniquePtr& operator = (const UniquePtr&) = delete;
-  UniquePtr& operator = (nullptr_t) {
-		Release();
+
+  UniquePtr& operator = (nullptr_t ptr) {
+		Reset();
+		return *this;
 	}
+
   UniquePtr& operator = (UniquePtr&& other) {
-		_ptr = other.release();
+		auto tmp = other.Release();
+		if (tmp != _ptr) {
+			Reset(tmp);
+		}
+		return *this;
 	}
+
   ~UniquePtr() {
-		delete _ptr;
+		if (_ptr) {
+			delete _ptr;
+		}
 	}
 
   T& operator * () const {
 		return *_ptr;
 	}
 
-  T * operator -> () const {
+  T* operator -> () const {
 		return _ptr;
 	}
 
-  T * Release() {
+  T* Release() {
 		auto tmp = _ptr;
 		_ptr = nullptr;
 		return tmp;
 	}
 
-  void Reset(T * ptr) {
-		delete _ptr;
+  void Reset(T* ptr = nullptr) {
+		if (_ptr) {
+			delete _ptr;
+		}
 		_ptr = ptr;
 	}
 
   void Swap(UniquePtr& other) {
 		auto tmp = _ptr;
 		_ptr = other.Release();
-		other.reset(tmp);
+		other.Reset(tmp);
 	}
 
   T * Get() const {
 		return _ptr;
 	}
+
+  UniquePtr(const UniquePtr&) = delete;
+  UniquePtr& operator = (const UniquePtr&) = delete;
 };
 
 

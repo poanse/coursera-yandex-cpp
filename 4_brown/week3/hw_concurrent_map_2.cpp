@@ -16,29 +16,29 @@ using namespace std;
 template <typename K, typename V>
 using container = unordered_map<K, V>;
 
-template <typename K, typename V>
+template <typename K, typename V, typename Hash = std::hash<K>>
 class ConcurrentMap {
 private:
-	mutable vector<mutex*> mutexes;
-	//vector<pair<container<K, V>, mutex>> maps;
+	mutable vector<mutex> mutexes;
 	vector<container<K, V>> maps;
-	hash<K> hasher;
+	Hash hasher;
 public:
 	template <typename T>
   struct Access {
-    T& ref_to_value;
 		lock_guard<mutex> lock;
+    V& ref_to_value;
+  };
+
+	template <typename T>
+  struct AccessC {
+		lock_guard<mutex> lock;
+    const V& ref_to_value;
   };
 
   explicit ConcurrentMap(const size_t bucket_count)
 		: mutexes(bucket_count)
-		,	maps(bucket_count) {
-		for (size_t i = 0; i < bucket_count; i++) {
-			container<K, V> m;
-			maps[i] = move(m);
-			mutex *mut = new mutex;
-			mutexes[i] = move(mut);
-		}
+		,	maps(bucket_count) 
+	{
 	}
 
 	size_t GetMapIndex(const K key) const {
@@ -46,33 +46,25 @@ public:
 	}
 
 	bool Has(const K& key) const {
-		return maps[GetMapIndex(key)].count(key);
+		auto idx = GetMapIndex(key);
+		lock_guard<mutex> lock(mutexes[idx]);
+		return maps[idx].count(key);
 	}
 
-	Access <const V> At(const K& key) const {
+	AccessC<V> At(const K& key) const {
 		auto idx = GetMapIndex(key);
-		const V *ref;
-		{
-			lock_guard<mutex> lock(*mutexes[idx]);
-			ref = &maps[idx].at(key);
-		}
-		return {*ref, lock_guard<mutex>(*(mutexes[idx]))};
+		return {lock_guard<mutex>(mutexes[idx]), maps[idx].at(key)};
 	}
 
   Access<V> operator[](const K& key) {
 		auto idx = GetMapIndex(key);
-		V *ref;
-		{
-			lock_guard<mutex> lock(*mutexes[idx]);
-			ref = &maps[idx][key];
-		}
-		return {*ref, lock_guard<mutex>(*(mutexes[idx]))};
+		return {lock_guard<mutex>(mutexes[idx]), maps[idx][key]};
 	}
 
-  container<K, V> BuildOrdinaryMap() const {
-		container<K, V> result;
+  unordered_map<K, V, Hash> BuildOrdinaryMap() const {
+		unordered_map<K, V, Hash> result;
 		for (size_t i = 0; i < maps.size(); i++) {
-			lock_guard<mutex> lock(*(mutexes[i]));
+			lock_guard<mutex> lock(mutexes[i]);
 			result.insert(maps[i].begin(), maps[i].end());
 		}
 		return result;

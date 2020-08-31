@@ -68,19 +68,18 @@ public:
 
 private:
 	unordered_multimap<string, string> headers;
-	string content;
+	string content = "";
 	HttpCode code;
 	string comment;
 };
 
 ostream& operator << (ostream& output, const HttpResponse& resp) {
-	output << HTTP_VERSION << ' ' << (size_t)resp.code << resp.comment << '\n';
+	output << HTTP_VERSION << ' ' << (size_t)resp.code 
+		<< ' '<< resp.comment << '\n';
 	for (auto& [key, value] : resp.headers) {
 		output << key << ": " << value << '\n';
 	}
-	if (resp.content.size()) {
-		output << '\n' << resp.content << '\n';
-	}
+	output << '\n' << resp.content;
 	return output;
 }
 
@@ -122,7 +121,7 @@ private:
   unordered_set<size_t> banned_users;
 
 public:
-  HttpResponse ServeRequest(const HttpRequest& req, ostream& os) {
+  HttpResponse ServeRequest(const HttpRequest& req) {
 		HttpResponse resp = HttpResponse(HttpCode::NotFound);
     if (req.method == "POST") {
       if (req.path == "/add_user") {
@@ -187,7 +186,6 @@ public:
         //os << "HTTP/1.1 404 Not found\n\n";
       }
     }
-		os << resp;
 		return resp;
   }
 };
@@ -238,10 +236,10 @@ istream& operator >>(istream& input, ParsedResponse& r) {
 }
 
 void Test(CommentServer& srv, const HttpRequest& request, const ParsedResponse& expected) {
-  stringstream ss;
-  srv.ServeRequest(request, ss);
-  ParsedResponse resp;
-  ss >> resp;
+	stringstream ss;
+	ParsedResponse resp;
+	ss << srv.ServeRequest(request);
+	ss >> resp;
   ASSERT_EQUAL(resp.code, expected.code);
   ASSERT_EQUAL(resp.headers, expected.headers);
   ASSERT_EQUAL(resp.content, expected.content);

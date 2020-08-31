@@ -24,10 +24,7 @@ public:
     if (counter >= capacity) {
       throw runtime_error("Flight overbooking");
     }
-		//cerr << "Flight provider ";
-		//cerr << "counter before: " << counter;
     ++counter;
-		//cerr << "; counter after: " << counter << endl;
     return {this, counter};
   }
 
@@ -59,10 +56,7 @@ public:
     if (counter >= capacity) {
       throw runtime_error("Hotel overbooking");
     }
-		//cerr << "Hotels provider ";
-		//cerr << "counter before: " << counter;
     ++counter;
-		//cerr << "; counter after: " << counter << endl;
     return {this, counter};
   }
 

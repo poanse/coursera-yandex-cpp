@@ -102,7 +102,10 @@ public:
 		}
 
 		IndexProxy operator= (T new_value) {
-			if (new_value != 0) {
+			if (new_value == 0 && _degree == _parent->Degree()) {
+				_parent->coeffs_[_degree] = 0;
+				_parent->Shrink();
+			} else if (new_value > 0){
 				if (_degree >= _parent->Degree()) {
 					_parent->coeffs_.resize(_degree + 1);
 				}

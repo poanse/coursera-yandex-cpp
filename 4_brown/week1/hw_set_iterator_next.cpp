@@ -99,7 +99,7 @@ void Test1() {
   ASSERT_EQUAL( Next(r)->value, 100);
 
   while (min) {
-    cout << min->value << '\n';
+    //cout << min->value << '\n';
     min = Next(min);
   }
 }
