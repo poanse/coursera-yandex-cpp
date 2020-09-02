@@ -6,9 +6,10 @@
 #include <unordered_set>
 #include <stdexcept>
 #include <cmath>
+#include <iostream>
 using namespace std;
 
-const long double PI = 3.1415926535;
+constexpr long double PI = 3.1415926535;
 const int EARTH_RADIUS = 6371;
 // Implementation
 
@@ -33,7 +34,7 @@ Stop::Stop(string n, long double lat, long double lon)
 }
 
 long double Stop::toRadians(const long double degree) { 
-	long double one_deg = PI / 180; 
+	constexpr long double one_deg = PI / 180; 
 	return (one_deg * degree); 
 } 
   
@@ -62,7 +63,6 @@ long double Stop::ComputeDistance(const Stop* lhs, const Stop* rhs) {
 		
 	// Calculate the result 
 	ans = ans * R; 
-
 	return ans; 
 }
 

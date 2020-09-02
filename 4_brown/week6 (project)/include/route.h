@@ -35,9 +35,9 @@ struct Route {
 	static InfoPtr Parser(std::string bus, std::string unparsed_stops);
 
 	struct Stats {
-		size_t n_stops;
-		size_t n_unique_stops;
-		long double route_length;
+		size_t n_stops = 0;
+		size_t n_unique_stops = 0;
+		long double route_length = 0;
 
 		Stats(const Info* info, const Stops* stops);
 	};

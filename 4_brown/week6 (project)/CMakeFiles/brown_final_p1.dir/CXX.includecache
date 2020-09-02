@@ -1,0 +1,74 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp
+tests.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.h
+test_runner.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/test_runner.h
+route.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route.h
+route_manager.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route_manager.h
+iostream
+-
+
+include/requests.h
+iostream
+-
+optional
+-
+memory
+-
+route.h
+include/route.h
+
+include/route.h
+string
+-
+unordered_map
+-
+memory
+-
+list
+-
+stdexcept
+-
+
+include/route_manager.h
+unordered_map
+-
+route.h
+include/route.h
+requests.h
+include/requests.h
+
+include/test_runner.h
+sstream
+-
+stdexcept
+-
+iostream
+-
+map
+-
+unordered_map
+-
+set
+-
+string
+-
+vector
+-
+
+include/tests.h
+list
+-
+string
+-
+
