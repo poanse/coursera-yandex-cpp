@@ -1,61 +1,29 @@
-#include "requests.h"
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include "requests.h"
 
 using namespace std;
-
-AddRequest::AddRequest(AddRequest::Type type_, Route::InfoPtr ptr)
-	:	type(type_)
-	, route(move(ptr))
-{
-}
-AddRequest::AddRequest(AddRequest::Type type_, StopPtr ptr)
-	:	type(type_)
-	, stop(move(ptr))
-{
-}
-
-GetRequest::GetRequest(GetRequest::Type type_, string b)
-	: type(type_)
-	, bus(b)
-{
-}
-
-Response::Response(Route::StatsPtr stats_) 
-	: stats(stats_) 
-{
-}
-
-Response::Response(Route::StatsPtr stats_, GetRequestPtr getreq_) 
-	: stats(stats_)
-	, getreq(move(getreq_))
-{
-	if (stats.value() == nullptr) {
-		stats.reset();
-	}
-}
 
 //Response::Response(string msg_) 
 	//: msg(move(msg_) 
 //{
 //}
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
+	auto it = s.begin();
+	for (; it != prev(s.end()); it++) {
+		os << *it << ' ';
+	}
+	os << *it;
+	return os;
+}
 
 void ProcessResponse(ostream& os, const Response* resp) {
 	if (nullptr == resp) {
 		throw invalid_argument("No response given");
 	}
-	// TBD: check request code with switch
-	os << setprecision(6);
-	os << "Bus " << resp->getreq.value()->bus.value() << ": ";
-	if (resp->stats.has_value()) {
-		const auto& stats = *resp->stats.value();
-		os << stats.n_stops << " stops on route, " 
-			 << stats.n_unique_stops << " unique stops, "
-			 << stats.route_length * 1000 << " route length\n";
-	} else if (!resp->stats.has_value()) {
-		os << "not found\n";
-	}
+	resp->Process(os);
 }
 
 AddRequestPtr ReadAddRequest(istream& is) {
@@ -71,7 +39,7 @@ AddRequestPtr ReadAddRequest(istream& is) {
 		string stops;
 		getline(is, stops);
 		try {
-			return make_unique<AddRequest>(AddRequest::Type::ADD_ROUTE, 
+			return make_unique<AddBusRequest>(AddRequest::Type::ADD_ROUTE, 
 				Route::Parser(bus, stops));
 		} catch (exception& e) {
 			cerr << "Failed to read request: " + command + ' ' + bus + ": "+ e.what() << endl;
@@ -86,7 +54,7 @@ AddRequestPtr ReadAddRequest(istream& is) {
 		is.ignore(1);
 		is >> longitude;
 		try {
-			return make_unique<AddRequest>(AddRequest::Type::ADD_STOP, 
+			return make_unique<AddStopRequest>(AddRequest::Type::ADD_STOP, 
 				make_unique<Stop>(name, latitude, longitude));
 		} catch (exception& e) {
 			cerr << "Failed to read request: " + command + ' ' + name + ": "+ e.what() << endl;
@@ -95,6 +63,32 @@ AddRequestPtr ReadAddRequest(istream& is) {
 		throw invalid_argument("Request reading failed");
 	}
 	return nullptr;
+}
+
+void GetBusResponse::Process(std::ostream& os) const {
+	os << std::setprecision(6);
+	os << "Bus " << bus << ": ";
+	if (stats) {
+		os << stats->n_stops << " stops on route, " 
+			 << stats->n_unique_stops << " unique stops, "
+			 << stats->route_length * 1000 << " route length\n";
+	} else {
+		os << "not found\n";
+	}
+}
+
+void GetStopResponse::Process(std::ostream& os) const {
+	os << std::setprecision(6);
+	os << "Stop " << stop << ": ";
+	if (found) {
+		if (buses.size()) {
+			os << "buses " << buses << "\n";
+		} else {
+			os << "no buses\n";
+		}
+	} else {
+		os << "not found\n";
+	}
 }
 
 GetRequestPtr ReadGetRequest(istream& is) {
@@ -106,9 +100,14 @@ GetRequestPtr ReadGetRequest(istream& is) {
 		while (is.peek() != ':' && is.peek() != EOF && is.peek() != '\n') {
 			bus += is.get();
 		}
-		//int bus;
-		//is >> bus;
-		return make_unique<GetRequest>(GetRequest::Type::GET_BUS_INFO, bus);
+		return make_unique<GetBusRequest>(GetRequest::Type::GET_BUS_INFO, bus);
+	} else if (command == "Stop") {
+		string stop;
+		is >> ws;
+		while (is.peek() != ':' && is.peek() != EOF && is.peek() != '\n') {
+			stop += is.get();
+		}
+		return make_unique<GetStopRequest>(GetRequest::Type::GET_STOP_INFO, stop);
 	}
 	return nullptr;
 }

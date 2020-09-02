@@ -6,25 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp
-tests.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.h
-test_runner.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/test_runner.h
-route.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route.h
-route_manager.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route_manager.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.cpp
+string
+-
 iostream
 -
+iomanip
+-
+requests.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.h
 
 include/requests.h
 iostream
+-
+iomanip
 -
 optional
 -
 memory
 -
+unordered_map
+-
+set
+-
 route.h
 include/route.h
 
@@ -38,37 +42,5 @@ memory
 list
 -
 stdexcept
--
-
-include/route_manager.h
-unordered_map
--
-route.h
-include/route.h
-requests.h
-include/requests.h
-
-include/test_runner.h
-sstream
--
-stdexcept
--
-iostream
--
-map
--
-unordered_map
--
-set
--
-string
--
-vector
--
-
-include/tests.h
-list
--
-string
 -
 
