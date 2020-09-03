@@ -93,12 +93,12 @@ clean: CMakeFiles/brown_final_p1.dir/clean
 CMakeFiles/brown_final_p1.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=1,2,3,4,5,6 "Built target brown_final_p1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=1,2,3,4,5,6,7 "Built target brown_final_p1"
 .PHONY : CMakeFiles/brown_final_p1.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/brown_final_p1.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/brown_final_p1.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" 0
 .PHONY : CMakeFiles/brown_final_p1.dir/rule

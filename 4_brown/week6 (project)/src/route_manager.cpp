@@ -5,23 +5,6 @@
 
 using namespace std;
 
-//class RouteManager {
-//private:
-	//unordered_map<int, RoutePtr> routes;
-	//Stops stops;
-
-	//void AddRoute(Route::InfoPtr route_info);
-
-	//void AddStop(StopPtr stop);
-
-	//Route::StatsPtr GetBusInfo(int bus);
-
-//public:
-	//ResponsePtr ProcessAddRequest(AddRequestPtr req);
-
-	//ResponsePtr ProcessGetRequest(GetRequestPtr req);
-//};
-
 // Implementation
 
 const Route::Info* RouteManager::AddRoute(Route::InfoPtr route_info) {
@@ -38,13 +21,15 @@ const Route::Info* RouteManager::AddRoute(Route::InfoPtr route_info) {
 	return routes[bus]->info.get();
 }
 
-void RouteManager::AddStop(StopPtr stop) {
+void RouteManager::AddStop(StopPtr stop, std::unordered_map<StopPair, int> new_distances) {
 	if (nullptr == stop) {
 		throw invalid_argument("Stop is null");
 	}
 	string name = stop->name;
 	stops[name] = move(stop);
 	stop_to_buses[name];
+	distances.insert( make_move_iterator(begin(new_distances)), 
+										make_move_iterator(end(new_distances)) );
 }
 
 Route::StatsPtr RouteManager::GetBusInfo(string bus) {
@@ -53,7 +38,7 @@ Route::StatsPtr RouteManager::GetBusInfo(string bus) {
 	}
 	auto& route = routes[bus];
 	if (nullptr == route->stats) {
-		route->CalculateStats(&stops);
+		route->CalculateStats(&stops, this);
 	}
 	return route->stats;
 };
@@ -71,22 +56,10 @@ GetStopResponsePtr RouteManager::GetStopInfo(std::string stop) {
 
 ResponsePtr RouteManager::ProcessAddRequest(AddRequestPtr req) {
 	req->Process(this);
-	//switch (req->type) {
-		//case AddRequest::Type::ADD_STOP:
-			//AddStop(move(req->stop));
-			//break;
-		//case AddRequest::Type::ADD_ROUTE:
-			//AddRoute(move(req->route));
-			//break;
-	//}
 	return {};
 }
 
 ResponsePtr RouteManager::ProcessGetRequest(GetRequestPtr req) {
-	//switch (req->type) {
-		//case GetRequest::Type::GET_BUS_INFO:
-			//return make_unique<Response>(GetBusInfo(req->bus.value()), move(req));
-	//}
 	return req->Process(this);
 }
 

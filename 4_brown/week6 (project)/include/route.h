@@ -5,18 +5,22 @@
 #include <list>
 #include <stdexcept>
 
+//#include "requests.h"
+
+class RouteManager;
+
 std::list<std::string> SplitBySubstring (std::string str, std::string substr);
 
 struct Stop {
 	std::string name;
-	long double latitude;
-	long double longitude;
+	double latitude;
+	double longitude;
 
-	Stop(std::string n, long double lat, long double lon);
+	Stop(std::string n, double lat, double lon);
 	
-	static long double toRadians(const long double degree);
+	static double toRadians(const double degree);
 
-	static long double ComputeDistance(const Stop* lhs, const Stop* rhs);
+	static double ComputeDistance(const Stop* lhs, const Stop* rhs);
 };
 using StopPtr = std::unique_ptr<Stop>;
 using Stops = std::unordered_map<std::string, StopPtr>;
@@ -30,6 +34,7 @@ struct Route {
 
 		Info(std::string b, bool is, std::list<std::string> stps);
 	};
+
 	using InfoPtr = std::unique_ptr<Info>;
 
 	static InfoPtr Parser(std::string bus, std::string unparsed_stops);
@@ -37,9 +42,11 @@ struct Route {
 	struct Stats {
 		size_t n_stops = 0;
 		size_t n_unique_stops = 0;
-		long double route_length = 0;
+		double route_length = 0;
+		double route_length_true = 0;
+		double curvature = 1;
 
-		Stats(const Info* info, const Stops* stops);
+		Stats(const Info* info, const Stops* stops, const RouteManager* rm);
 	};
 	using StatsPtr = std::shared_ptr<Stats>;
 
@@ -48,6 +55,6 @@ struct Route {
 
 	Route(InfoPtr route_info);
 
-	void CalculateStats(const Stops* stops);
+	void CalculateStats(const Stops* stops, const RouteManager* rm);
 };
 using RoutePtr = std::unique_ptr<Route>;

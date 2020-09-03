@@ -250,6 +250,33 @@ src/route_manager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/src/route_manager.cpp.s
 .PHONY : src/route_manager.cpp.s
 
+src/stop_pair.o: src/stop_pair.cpp.o
+
+.PHONY : src/stop_pair.o
+
+# target to build an object file
+src/stop_pair.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/src/stop_pair.cpp.o
+.PHONY : src/stop_pair.cpp.o
+
+src/stop_pair.i: src/stop_pair.cpp.i
+
+.PHONY : src/stop_pair.i
+
+# target to preprocess a source file
+src/stop_pair.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/src/stop_pair.cpp.i
+.PHONY : src/stop_pair.cpp.i
+
+src/stop_pair.s: src/stop_pair.cpp.s
+
+.PHONY : src/stop_pair.s
+
+# target to generate assembly for a file
+src/stop_pair.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/src/stop_pair.cpp.s
+.PHONY : src/stop_pair.cpp.s
+
 src/tests.o: src/tests.cpp.o
 
 .PHONY : src/tests.o
@@ -298,6 +325,9 @@ help:
 	@echo "... src/route_manager.o"
 	@echo "... src/route_manager.i"
 	@echo "... src/route_manager.s"
+	@echo "... src/stop_pair.o"
+	@echo "... src/stop_pair.i"
+	@echo "... src/stop_pair.s"
 	@echo "... src/tests.o"
 	@echo "... src/tests.i"
 	@echo "... src/tests.s"

@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <set>
 
+#include "stop_pair.h"
 #include "route.h"
 
 class AddRequest;
@@ -20,8 +21,8 @@ class GetBusResponse;
 class GetStopResponse;
 
 using AddRequestPtr = std::unique_ptr<AddRequest>;
-using AddBusPtr = std::unique_ptr<AddBusRequest>;
-using AddStopPtr = std::unique_ptr<AddStopRequest>;
+using AddBusRequestPtr = std::unique_ptr<AddBusRequest>;
+using AddStopRequestPtr = std::unique_ptr<AddStopRequest>;
 
 using GetRequestPtr = std::unique_ptr<GetRequest>;
 using GetBusRequestPtr = std::unique_ptr<GetBusRequest>;
@@ -37,16 +38,19 @@ class RouteManager {
 	friend AddStopRequest;
 	friend GetBusRequest;
 	friend GetStopRequest;
+	friend Route::Stats;
 private:
+	std::unordered_map<std::string, std::set<std::string>> stop_to_buses;
 	std::unordered_map<std::string, RoutePtr> routes;
 	Stops stops;
-	std::unordered_map<std::string, std::set<std::string>> stop_to_buses;
+	std::unordered_map<StopPair, int> distances;
 
+private:
 	const Route::Info* AddRoute(Route::InfoPtr route_info);
-	void AddStop(StopPtr stop);
+	void AddStop(StopPtr stop, std::unordered_map<StopPair, int>);
 
 	Route::StatsPtr GetBusInfo(std::string bus);
-	//std::set<std::string_view> GetStopInfo(std::string stop);
+
 	GetStopResponsePtr GetStopInfo(std::string stop);
 
 public:
@@ -70,12 +74,12 @@ struct AddBusRequest : AddRequest {
 
 	AddBusRequest(AddRequest::Type type_, Route::InfoPtr ptr)
 		:	AddRequest(type_)
-		, route(move(ptr))
+		, route(std::move(ptr))
 	{
 	}
 
 	void Process(RouteManager* rm) override {
-		rm->AddRoute(move(route));
+		rm->AddRoute(std::move(route));
 	}
 
 };
@@ -83,14 +87,16 @@ struct AddBusRequest : AddRequest {
 
 struct AddStopRequest : AddRequest {
 	StopPtr stop;
-	AddStopRequest(AddRequest::Type type_, StopPtr ptr)
+	std::unordered_map<StopPair, int> distances;
+	AddStopRequest(AddRequest::Type type_, StopPtr ptr, std::unordered_map<StopPair, int> dist)
 		:	AddRequest(type_)
-		, stop(move(ptr))
+		, stop(std::move(ptr))
+		, distances(std::move(dist))
 	{
 	}
 
 	void Process(RouteManager* rm) override {
-		rm->AddStop(move(stop));
+		rm->AddStop(std::move(stop), std::move(distances));
 	}
 };
 
@@ -115,8 +121,8 @@ struct GetBusResponse : Response {
 	std::string bus;
 
 	GetBusResponse(Route::StatsPtr stats_, std::string bus_) 
-		: stats(move(stats_))
-		, bus(move(bus_))
+		: stats(std::move(stats_))
+		, bus(std::move(bus_))
 	{
 	}
 
@@ -131,11 +137,11 @@ struct GetStopResponse : Response {
 
 	GetStopResponse(std::string stop_, bool found_, 
 			std::set<std::string> buses_ = {}) 
-		: stop(move(stop_))
+		: stop(std::move(stop_))
 		, found(found_)
 	{
 		if (found) {
-			buses = move(buses_);
+			buses = std::move(buses_);
 		}
 	}
 
@@ -152,7 +158,7 @@ struct GetBusRequest : GetRequest {
 	}
 
 	ResponsePtr Process(RouteManager* rm) override {
-		auto *ptr = new GetBusResponse(rm->GetBusInfo(bus), move(bus));
+		auto *ptr = new GetBusResponse(rm->GetBusInfo(bus), std::move(bus));
 		std::unique_ptr<Response> resp(ptr);
 		return resp;
 	}
@@ -168,9 +174,6 @@ struct GetStopRequest : GetRequest {
 	}
 
 	ResponsePtr Process(RouteManager* rm) override {
-		//auto *ptr = new GetStopResponse(rm->GetStopInfo(stop), move(stop));
-		//std::unique_ptr<Response> resp(ptr);
-		//return resp;
 		return rm->GetStopInfo(stop);
 	}
 };

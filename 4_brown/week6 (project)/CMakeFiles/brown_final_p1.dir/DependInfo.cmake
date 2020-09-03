@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final_p1.dir/src/requests.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final_p1.dir/src/route.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route_manager.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final_p1.dir/src/route_manager.cpp.o"
+  "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/stop_pair.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final_p1.dir/src/stop_pair.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final_p1.dir/src/tests.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

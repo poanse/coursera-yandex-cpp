@@ -26,38 +26,69 @@ void ProcessResponse(ostream& os, const Response* resp) {
 	resp->Process(os);
 }
 
+AddBusRequestPtr ReadAddBusRequest(istream& is) {
+	string bus;
+	is >> ws;
+	while (is.peek() != ':') {
+		bus += is.get();
+	}
+	is.ignore(2);
+	string stops;
+	getline(is, stops);
+	return make_unique<AddBusRequest>(
+		AddRequest::Type::ADD_ROUTE, 
+		Route::Parser(bus, stops)
+	);
+}
+
+AddStopRequestPtr ReadAddStopRequest(istream& is) {
+	string name;
+	is >> ws;
+	getline(is, name, ':');
+	is.ignore(1);
+	double latitude, longitude;
+	is >> latitude;
+	is.ignore(1);
+	is >> longitude;
+	string stop_dists;
+	getline(is, stop_dists);
+	stringstream sd(stop_dists);
+	std::unordered_map<StopPair, int> distances;
+	while (sd) {
+		sd.ignore(1);
+		int dist = -1;
+		sd >> dist;
+		sd.ignore(5); //"m to "
+		string stop;
+		while (sd.peek() != ',' && sd.peek() != '\n' && sd) {
+			stop += sd.get();
+		}
+		if (dist != -1 && stop != "") {
+			//cerr << "name: \"" << name << "\" stop: \"" << stop << "\" dist: " << dist << '\n';
+			distances[StopPair(name, move(stop))] = dist;
+		}
+	}
+	return make_unique<AddStopRequest>(
+			AddRequest::Type::ADD_STOP, 
+		  make_unique<Stop>(name, latitude, longitude),
+			move(distances)
+	);
+}
+
 AddRequestPtr ReadAddRequest(istream& is) {
 	string command;
 	is >> command;
 	if (command == "Bus") {
-		string bus;
-		is >> ws;
-		while (is.peek() != ':') {
-			bus += is.get();
-		}
-		is.ignore(2);
-		string stops;
-		getline(is, stops);
 		try {
-			return make_unique<AddBusRequest>(AddRequest::Type::ADD_ROUTE, 
-				Route::Parser(bus, stops));
+			return ReadAddBusRequest(is);
 		} catch (exception& e) {
-			cerr << "Failed to read request: " + command + ' ' + bus + ": "+ e.what() << endl;
+			cerr << "Failed to read request: " + command + ": "+ e.what() << endl;
 		}
 	} else if (command == "Stop") {
-		is.ignore(1);
-		string name;
-		getline(is, name, ':');
-		is.ignore(1);
-		double latitude, longitude;
-		is >> latitude;
-		is.ignore(1);
-		is >> longitude;
 		try {
-			return make_unique<AddStopRequest>(AddRequest::Type::ADD_STOP, 
-				make_unique<Stop>(name, latitude, longitude));
+			return ReadAddStopRequest(is);
 		} catch (exception& e) {
-			cerr << "Failed to read request: " + command + ' ' + name + ": "+ e.what() << endl;
+			cerr << "Failed to read request: " + command + ": "+ e.what() << endl;
 		}
 	} else {
 		throw invalid_argument("Request reading failed");
@@ -66,12 +97,13 @@ AddRequestPtr ReadAddRequest(istream& is) {
 }
 
 void GetBusResponse::Process(std::ostream& os) const {
-	os << std::setprecision(6);
+	os << std::setprecision(7);
 	os << "Bus " << bus << ": ";
 	if (stats) {
 		os << stats->n_stops << " stops on route, " 
 			 << stats->n_unique_stops << " unique stops, "
-			 << stats->route_length * 1000 << " route length\n";
+			 << stats->route_length_true << " route length, "
+			 << stats->curvature << " curvature" << '\n';
 	} else {
 		os << "not found\n";
 	}
