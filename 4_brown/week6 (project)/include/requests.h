@@ -8,9 +8,10 @@
 
 #include "stop_pair.h"
 #include "route.h"
+#include "responses.h"
 
 class AddRequest;
-class AddBusRequest;
+class AddRouteRequest;
 class AddStopRequest;
 class GetRequest;
 class GetBusRequest;
@@ -21,20 +22,18 @@ class GetBusResponse;
 class GetStopResponse;
 
 using AddRequestPtr = std::unique_ptr<AddRequest>;
-using AddBusRequestPtr = std::unique_ptr<AddBusRequest>;
+using AddRouteRequestPtr = std::unique_ptr<AddRouteRequest>;
 using AddStopRequestPtr = std::unique_ptr<AddStopRequest>;
 
 using GetRequestPtr = std::unique_ptr<GetRequest>;
 using GetBusRequestPtr = std::unique_ptr<GetBusRequest>;
-
-using ResponsePtr = std::unique_ptr<Response>;
-using GetStopResponsePtr = std::unique_ptr<GetStopResponse>;
+using GetStopRequestPtr = std::unique_ptr<GetStopRequest>;
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::set<T>& s);
 
 class RouteManager {
-	friend AddBusRequest;
+	friend AddRouteRequest;
 	friend AddStopRequest;
 	friend GetBusRequest;
 	friend GetStopRequest;
@@ -67,12 +66,15 @@ struct AddRequest {
 	AddRequest::Type type;
 	AddRequest(AddRequest::Type type_) : type(type_) {}
 	virtual void Process(RouteManager *rm) = 0;
+	virtual ~AddRequest() = default;
 };
 
-struct AddBusRequest : AddRequest {
+AddRequest::Type GetAddRequestCode(const std::string& type);
+
+struct AddRouteRequest : AddRequest {
 	Route::InfoPtr route;
 
-	AddBusRequest(AddRequest::Type type_, Route::InfoPtr ptr)
+	AddRouteRequest(AddRequest::Type type_, Route::InfoPtr ptr)
 		:	AddRequest(type_)
 		, route(std::move(ptr))
 	{
@@ -81,9 +83,7 @@ struct AddBusRequest : AddRequest {
 	void Process(RouteManager* rm) override {
 		rm->AddRoute(std::move(route));
 	}
-
 };
-
 
 struct AddStopRequest : AddRequest {
 	StopPtr stop;
@@ -105,60 +105,32 @@ struct GetRequest {
 		GET_BUS_INFO,
 		GET_STOP_INFO
 	};
+
 	GetRequest::Type type;
-	GetRequest(GetRequest::Type type_) : type(type_) {}
+	int id;
+
+	GetRequest(GetRequest::Type type_, int id_) 
+		: type(type_)
+	  , id(id_)
+	{
+	}
 	virtual ResponsePtr Process(RouteManager* rm) = 0;
+	virtual ~GetRequest() = default;
 };
 
+GetRequest::Type GetGetRequestCode(const std::string& type);
 
-struct Response {
-	virtual void Process(std::ostream& os) const {};
-	virtual ~Response() = default;
-};
-
-struct GetBusResponse : Response {
-	Route::StatsPtr stats;
-	std::string bus;
-
-	GetBusResponse(Route::StatsPtr stats_, std::string bus_) 
-		: stats(std::move(stats_))
-		, bus(std::move(bus_))
-	{
-	}
-
-	void Process(std::ostream& os) const override;
-	~GetBusResponse() override = default;
-};
-
-struct GetStopResponse : Response {
-	std::set<std::string> buses;
-	std::string stop;
-	bool found;
-
-	GetStopResponse(std::string stop_, bool found_, 
-			std::set<std::string> buses_ = {}) 
-		: stop(std::move(stop_))
-		, found(found_)
-	{
-		if (found) {
-			buses = std::move(buses_);
-		}
-	}
-
-	void Process(std::ostream& os) const override;
-	~GetStopResponse() override = default;
-};
 struct GetBusRequest : GetRequest {
 	std::string bus;
 
-	GetBusRequest(GetRequest::Type type_, std::string b)
-		: GetRequest(type_)
+	GetBusRequest(GetRequest::Type type_, std::string b, int id_ = 0)
+		: GetRequest(type_, id_)
 		, bus(b)
 	{
 	}
 
 	ResponsePtr Process(RouteManager* rm) override {
-		auto *ptr = new GetBusResponse(rm->GetBusInfo(bus), std::move(bus));
+		auto *ptr = new GetBusResponse(rm->GetBusInfo(bus), std::move(bus), id);
 		std::unique_ptr<Response> resp(ptr);
 		return resp;
 	}
@@ -167,23 +139,20 @@ struct GetBusRequest : GetRequest {
 struct GetStopRequest : GetRequest {
 	std::string stop;
 
-	GetStopRequest(GetRequest::Type type_, std::string s)
-		: GetRequest(type_)
+	GetStopRequest(GetRequest::Type type_, std::string s, int id_ = 0)
+		: GetRequest(type_, id_)
 		, stop(s)
 	{
 	}
 
 	ResponsePtr Process(RouteManager* rm) override {
-		return rm->GetStopInfo(stop);
+		auto resp = rm->GetStopInfo(stop);
+		resp->id = id;
+		return resp;
 	}
 };
 
-
-
-void ProcessResponse(std::ostream& os, const Response* resp);
-
 AddRequestPtr ReadAddRequest(std::istream& is);
-
 GetRequestPtr ReadGetRequest(std::istream& is);
 
 std::ostream& operator<< (std::ostream& os, AddRequest::Type type);

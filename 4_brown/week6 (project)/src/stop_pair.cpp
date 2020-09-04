@@ -17,3 +17,8 @@ StopPair::StopPair(std::string a, std::string b) {
 bool operator==(const StopPair& lhs, const StopPair& rhs) {
 	return lhs.stops == rhs.stops;
 }
+
+std::ostream& operator<<(std::ostream& os, const StopPair& p) {
+	os << p.stops.first << " - " << p.stops.second;
+	return os;
+}

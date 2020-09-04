@@ -5,28 +5,27 @@
 
 using namespace std;
 
-//Response::Response(string msg_) 
-	//: msg(move(msg_) 
-//{
-//}
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
-	auto it = s.begin();
-	for (; it != prev(s.end()); it++) {
-		os << *it << ' ';
+AddRequest::Type GetAddRequestCode(const string& type) {
+	if (type == "Bus") {
+		return AddRequest::Type::ADD_ROUTE;
+	} else if (type == "Stop") {
+		return AddRequest::Type::ADD_STOP;
+	} else {
+		throw invalid_argument("");
 	}
-	os << *it;
-	return os;
 }
 
-void ProcessResponse(ostream& os, const Response* resp) {
-	if (nullptr == resp) {
-		throw invalid_argument("No response given");
+GetRequest::Type GetGetRequestCode(const string& type) {
+	if (type == "Bus") {
+		return GetRequest::Type::GET_BUS_INFO;
+	} else if (type == "Stop") {
+		return GetRequest::Type::GET_STOP_INFO;
+	} else {
+		throw invalid_argument("");
 	}
-	resp->Process(os);
 }
 
-AddBusRequestPtr ReadAddBusRequest(istream& is) {
+AddRouteRequestPtr ReadAddRouteRequest(istream& is) {
 	string bus;
 	is >> ws;
 	while (is.peek() != ':') {
@@ -35,7 +34,7 @@ AddBusRequestPtr ReadAddBusRequest(istream& is) {
 	is.ignore(2);
 	string stops;
 	getline(is, stops);
-	return make_unique<AddBusRequest>(
+	return make_unique<AddRouteRequest>(
 		AddRequest::Type::ADD_ROUTE, 
 		Route::Parser(bus, stops)
 	);
@@ -80,7 +79,7 @@ AddRequestPtr ReadAddRequest(istream& is) {
 	is >> command;
 	if (command == "Bus") {
 		try {
-			return ReadAddBusRequest(is);
+			return ReadAddRouteRequest(is);
 		} catch (exception& e) {
 			cerr << "Failed to read request: " + command + ": "+ e.what() << endl;
 		}
@@ -96,32 +95,6 @@ AddRequestPtr ReadAddRequest(istream& is) {
 	return nullptr;
 }
 
-void GetBusResponse::Process(std::ostream& os) const {
-	os << std::setprecision(7);
-	os << "Bus " << bus << ": ";
-	if (stats) {
-		os << stats->n_stops << " stops on route, " 
-			 << stats->n_unique_stops << " unique stops, "
-			 << stats->route_length_true << " route length, "
-			 << stats->curvature << " curvature" << '\n';
-	} else {
-		os << "not found\n";
-	}
-}
-
-void GetStopResponse::Process(std::ostream& os) const {
-	os << std::setprecision(6);
-	os << "Stop " << stop << ": ";
-	if (found) {
-		if (buses.size()) {
-			os << "buses " << buses << "\n";
-		} else {
-			os << "no buses\n";
-		}
-	} else {
-		os << "not found\n";
-	}
-}
 
 GetRequestPtr ReadGetRequest(istream& is) {
 	string command;

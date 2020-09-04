@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 struct StopPair {
 	std::pair<std::string, std::string> stops;
@@ -7,6 +8,8 @@ struct StopPair {
 };
 
 bool operator==(const StopPair& lhs, const StopPair& rhs);
+
+std::ostream& operator<<(std::ostream& os, const StopPair& p);
 
 namespace std {
 	template<>

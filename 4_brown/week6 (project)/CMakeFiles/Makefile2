@@ -72,7 +72,7 @@ CMAKE_BINARY_DIR = "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/brown_final_p1.dir/all
+all: CMakeFiles/brown_final.dir/all
 
 .PHONY : all
 
@@ -82,36 +82,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/brown_final_p1.dir/clean
+clean: CMakeFiles/brown_final.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/brown_final_p1.dir
+# Target rules for target CMakeFiles/brown_final.dir
 
 # All Build rule for target.
-CMakeFiles/brown_final_p1.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=1,2,3,4,5,6,7 "Built target brown_final_p1"
-.PHONY : CMakeFiles/brown_final_p1.dir/all
+CMakeFiles/brown_final.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target brown_final"
+.PHONY : CMakeFiles/brown_final.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/brown_final_p1.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" 7
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/brown_final_p1.dir/all
+CMakeFiles/brown_final.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/brown_final.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" 0
-.PHONY : CMakeFiles/brown_final_p1.dir/rule
+.PHONY : CMakeFiles/brown_final.dir/rule
 
 # Convenience name for target.
-brown_final_p1: CMakeFiles/brown_final_p1.dir/rule
+brown_final: CMakeFiles/brown_final.dir/rule
 
-.PHONY : brown_final_p1
+.PHONY : brown_final
 
 # clean rule for target.
-CMakeFiles/brown_final_p1.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final_p1.dir/build.make CMakeFiles/brown_final_p1.dir/clean
-.PHONY : CMakeFiles/brown_final_p1.dir/clean
+CMakeFiles/brown_final.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/clean
+.PHONY : CMakeFiles/brown_final.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
