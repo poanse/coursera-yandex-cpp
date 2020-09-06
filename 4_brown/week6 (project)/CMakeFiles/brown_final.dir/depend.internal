@@ -6,13 +6,7 @@ CMakeFiles/brown_final.dir/src/json.cpp.o
  include/json.h
 CMakeFiles/brown_final.dir/src/main.cpp.o
  /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/main.cpp
- include/json.h
- include/parse_json.h
- include/requests.h
- include/responses.h
- include/route.h
- include/stop_pair.h
- include/test_runner.h
+ include/run.h
  include/tests.h
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o
  /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/parse_json.cpp
@@ -31,6 +25,7 @@ CMakeFiles/brown_final.dir/src/responses.cpp.o
  /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/responses.cpp
  include/responses.h
  include/route.h
+ include/stop_pair.h
 CMakeFiles/brown_final.dir/src/route.cpp.o
  /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route.cpp
  include/requests.h
@@ -42,9 +37,17 @@ CMakeFiles/brown_final.dir/src/route_manager.cpp.o
  include/requests.h
  include/responses.h
  include/route.h
+ include/route_manager.h
  include/stop_pair.h
-CMakeFiles/brown_final.dir/src/stop_pair.cpp.o
- /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/stop_pair.cpp
+CMakeFiles/brown_final.dir/src/run.cpp.o
+ /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/run.cpp
+ include/json.h
+ include/parse_json.h
+ include/requests.h
+ include/responses.h
+ include/route.h
+ include/route_manager.h
+ include/run.h
  include/stop_pair.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o
  /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp
@@ -53,6 +56,7 @@ CMakeFiles/brown_final.dir/src/tests.cpp.o
  include/requests.h
  include/responses.h
  include/route.h
+ include/run.h
  include/stop_pair.h
  include/test_runner.h
  include/tests.h

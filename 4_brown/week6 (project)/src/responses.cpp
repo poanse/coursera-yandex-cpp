@@ -26,33 +26,36 @@ std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
 	return os;
 }
 
-
-void ProcessResponse(std::ostream& os, const Response* resp) {
-	if (nullptr == resp) {
-		throw std::invalid_argument("No response given");
-	}
-	resp->Process(os);
-}
-
-void ProcessResponseJson(std::ostream& os, const Response* resp) {
-	if (nullptr == resp) {
-		throw std::invalid_argument("No response given");
-	}
-	resp->ProcessJson(os);
-}
-
 void ProcessResponsesJson(std::ostream& os, const std::vector<ResponsePtr>& responses) {
 	os << '[' << '\n';
 	if (!responses.empty()) {
 		auto it = responses.begin();
 		for (; it != prev(responses.end()); it++) {
-			ProcessResponseJson(os, it->get());
+			(*it)->ProcessJson(os);
 			os << ',' << '\n';
 		}
-		ProcessResponseJson(os, it->get());
+		(*it)->ProcessJson(os);
 		os << '\n';
 	}
 	os << ']' << '\n';
+}
+   
+GetBusResponse::GetBusResponse(Route::StatsPtr stats_, std::string bus_, int id_ = 0) 
+	: Response(id_)
+	, stats(std::move(stats_))
+	, bus(std::move(bus_))
+{
+}
+
+GetStopResponse::GetStopResponse(std::string stop_, bool found_, 
+			std::set<std::string> buses_ = {}, int id_ = 0)
+	: Response(id_)
+	, stop(std::move(stop_))
+	, found(found_)
+{
+	if (found) {
+		buses = std::move(buses_);
+	}
 }
 
 void GetBusResponse::Process(std::ostream& os) const {

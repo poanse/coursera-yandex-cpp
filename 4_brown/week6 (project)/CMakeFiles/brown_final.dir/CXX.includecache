@@ -6,89 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/json.cpp
-json.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/json.h
-
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/main.cpp
-iostream
--
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.cpp
 string
 -
-string_view
--
-list
--
-memory
+iostream
 -
 iomanip
 -
-unordered_set
--
-unordered_map
--
-test_runner.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/test_runner.h
-tests.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.h
-json.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/json.h
-parse_json.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/parse_json.h
 requests.h
 /home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.h
-responses.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/responses.h
-
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/parse_json.cpp
-json.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/json.h
-requests.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.h
-iostream
--
-sstream
--
-
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp
-tests.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.h
-test_runner.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/test_runner.h
-route.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route.h
-json.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/json.h
-parse_json.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/parse_json.h
-requests.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.h
-responses.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/responses.h
-stop_pair.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/stop_pair.h
-iostream
--
-
-include/json.h
-istream
--
-map
--
-string
--
-variant
--
-vector
--
-
-include/parse_json.h
-requests.h
-include/requests.h
-json.h
-include/json.h
-variant
--
 
 include/requests.h
 iostream
@@ -131,36 +57,10 @@ memory
 -
 list
 -
-stdexcept
--
+stop_pair.h
+include/stop_pair.h
 
 include/stop_pair.h
-string
--
-iostream
--
-
-include/test_runner.h
-sstream
--
-stdexcept
--
-iostream
--
-map
--
-unordered_map
--
-set
--
-string
--
-vector
--
-
-include/tests.h
-list
--
 string
 -
 

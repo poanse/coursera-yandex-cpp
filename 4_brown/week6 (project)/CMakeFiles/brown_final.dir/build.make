@@ -167,18 +167,18 @@ CMakeFiles/brown_final.dir/src/route_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brown_final.dir/src/route_manager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route_manager.cpp" -o CMakeFiles/brown_final.dir/src/route_manager.cpp.s
 
-CMakeFiles/brown_final.dir/src/stop_pair.cpp.o: CMakeFiles/brown_final.dir/flags.make
-CMakeFiles/brown_final.dir/src/stop_pair.cpp.o: src/stop_pair.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/brown_final.dir/src/stop_pair.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/brown_final.dir/src/stop_pair.cpp.o -c "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/stop_pair.cpp"
+CMakeFiles/brown_final.dir/src/run.cpp.o: CMakeFiles/brown_final.dir/flags.make
+CMakeFiles/brown_final.dir/src/run.cpp.o: src/run.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/brown_final.dir/src/run.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/brown_final.dir/src/run.cpp.o -c "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/run.cpp"
 
-CMakeFiles/brown_final.dir/src/stop_pair.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brown_final.dir/src/stop_pair.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/stop_pair.cpp" > CMakeFiles/brown_final.dir/src/stop_pair.cpp.i
+CMakeFiles/brown_final.dir/src/run.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brown_final.dir/src/run.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/run.cpp" > CMakeFiles/brown_final.dir/src/run.cpp.i
 
-CMakeFiles/brown_final.dir/src/stop_pair.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brown_final.dir/src/stop_pair.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/stop_pair.cpp" -o CMakeFiles/brown_final.dir/src/stop_pair.cpp.s
+CMakeFiles/brown_final.dir/src/run.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brown_final.dir/src/run.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/run.cpp" -o CMakeFiles/brown_final.dir/src/run.cpp.s
 
 CMakeFiles/brown_final.dir/src/tests.cpp.o: CMakeFiles/brown_final.dir/flags.make
 CMakeFiles/brown_final.dir/src/tests.cpp.o: src/tests.cpp
@@ -202,7 +202,7 @@ brown_final_OBJECTS = \
 "CMakeFiles/brown_final.dir/src/responses.cpp.o" \
 "CMakeFiles/brown_final.dir/src/route.cpp.o" \
 "CMakeFiles/brown_final.dir/src/route_manager.cpp.o" \
-"CMakeFiles/brown_final.dir/src/stop_pair.cpp.o" \
+"CMakeFiles/brown_final.dir/src/run.cpp.o" \
 "CMakeFiles/brown_final.dir/src/tests.cpp.o"
 
 # External object files for target brown_final
@@ -215,7 +215,7 @@ brown_final: CMakeFiles/brown_final.dir/src/requests.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/responses.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/route.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/route_manager.cpp.o
-brown_final: CMakeFiles/brown_final.dir/src/stop_pair.cpp.o
+brown_final: CMakeFiles/brown_final.dir/src/run.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/tests.cpp.o
 brown_final: CMakeFiles/brown_final.dir/build.make
 brown_final: CMakeFiles/brown_final.dir/link.txt

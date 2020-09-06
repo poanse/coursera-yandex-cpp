@@ -5,6 +5,15 @@
 
 using namespace std;
 
+
+
+AddStopRequest::AddStopRequest(AddRequest::Type type_, StopPtr ptr, std::unordered_map<StopPair, int> dist)
+	:	AddRequest(type_)
+	, stop(std::move(ptr))
+	, distances(std::move(dist))
+{
+}
+
 AddRequest::Type GetAddRequestCode(const string& type) {
 	if (type == "Bus") {
 		return AddRequest::Type::ADD_ROUTE;
@@ -125,4 +134,3 @@ ostream& operator<< (ostream& os, GetRequest::Type type) {
 	os << static_cast<int>(type);
 	return os;
 }
-

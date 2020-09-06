@@ -1,26 +1,37 @@
-//#include "route_manager.h"
-#include "requests.h"
+#include "route_manager.h"
 #include <string>
-#include <unordered_map>
 
 using namespace std;
 
-// Implementation
+void RouteManager::ProcessAddRequest(AddRequestPtr req) {
+	switch (req->type) {
+		case AddRequest::Type::ADD_ROUTE:
+			ProcessAddRouteRequest(dynamic_cast<AddRouteRequest*>(req.get()));
+			break;
+		case AddRequest::Type::ADD_STOP:
+			ProcessAddStopRequest(dynamic_cast<AddStopRequest*>(req.get()));
+			break;
+	}
+}
 
-const Route::Info* RouteManager::AddRoute(Route::InfoPtr route_info) {
+void RouteManager::ProcessAddRouteRequest(AddRouteRequest* req) {
+	AddRoute(move(req->route));
+}
+void RouteManager::AddRoute(Route::InfoPtr route_info) {
 	if (nullptr == route_info) {
 		throw invalid_argument("Route is null");
 	}
-	string bus = route_info->bus;
+	const string& bus = route_info->bus;
 	// add buses to stop
 	for (const auto& stop : route_info->stops) {
 		stop_to_buses[stop].insert(bus);
 	}
-
 	routes[bus] = make_unique<Route>(move(route_info));
-	return routes[bus]->info.get();
 }
 
+void RouteManager::ProcessAddStopRequest(AddStopRequest* req) {
+	AddStop(move(req->stop), move(req->distances));
+}
 void RouteManager::AddStop(StopPtr stop, std::unordered_map<StopPair, int> new_distances) {
 	if (nullptr == stop) {
 		throw invalid_argument("Stop is null");
@@ -32,34 +43,42 @@ void RouteManager::AddStop(StopPtr stop, std::unordered_map<StopPair, int> new_d
 										make_move_iterator(end(new_distances)) );
 }
 
+
+ResponsePtr RouteManager::ProcessGetRequest(GetRequestPtr req) {
+	switch (req->type) {
+		case GetRequest::Type::GET_BUS_INFO:
+			return ProcessGetBusRequest(dynamic_cast<GetBusRequest*>(req.get()));
+		case GetRequest::Type::GET_STOP_INFO:
+			return ProcessGetStopRequest(dynamic_cast<GetStopRequest*>(req.get()));
+	}
+	return {};
+}
+
+GetBusResponsePtr RouteManager::ProcessGetBusRequest(GetBusRequest* req) {
+	Route::StatsPtr stats = GetBusInfo(req->bus);
+	return make_unique<GetBusResponse>(move(stats), move(req->bus), req->id);
+}
 Route::StatsPtr RouteManager::GetBusInfo(string bus) {
 	if (0 == routes.count(bus)) {
 		return nullptr;
 	}
 	auto& route = routes[bus];
 	if (nullptr == route->stats) {
-		route->CalculateStats(&stops, this);
+		route->CalculateStats(&stops, distances);
 	}
 	return route->stats;
 };
 
-GetStopResponsePtr RouteManager::GetStopInfo(std::string stop) {
+GetStopResponsePtr RouteManager::ProcessGetStopRequest(GetStopRequest* req) {
+	auto [found, buses] = GetStopInfo(req->stop);
+	return make_unique<GetStopResponse>(move(req->stop), found, move(buses), req->id);
+}
+pair<bool, set<string>> RouteManager::GetStopInfo(std::string stop) {
 	auto it = stop_to_buses.find(stop);
 	bool found = (it != stop_to_buses.end());
 	set<string> buses;
 	if (found) {
 		buses = it->second;
 	}
-	return make_unique<GetStopResponse>(stop, found, move(buses));
-	//return stop_to_buses[stop];
+	return {found, move(buses)};
 }
-
-ResponsePtr RouteManager::ProcessAddRequest(AddRequestPtr req) {
-	req->Process(this);
-	return {};
-}
-
-ResponsePtr RouteManager::ProcessGetRequest(GetRequestPtr req) {
-	return req->Process(this);
-}
-

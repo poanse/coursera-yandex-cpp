@@ -3,11 +3,10 @@
 #include <unordered_map>
 #include <memory>
 #include <list>
-#include <stdexcept>
 
-//#include "requests.h"
+#include "stop_pair.h"
 
-class RouteManager;
+using Distances = std::unordered_map<StopPair, int>;
 
 std::list<std::string> SplitBySubstring (std::string str, std::string substr);
 
@@ -17,14 +16,11 @@ struct Stop {
 	double longitude;
 
 	Stop(std::string n, double lat, double lon);
-	
 	static double toRadians(const double degree);
-
 	static double ComputeDistance(const Stop* lhs, const Stop* rhs);
 };
 using StopPtr = std::unique_ptr<Stop>;
 using Stops = std::unordered_map<std::string, StopPtr>;
-
 
 struct Route {
 	struct Info {
@@ -34,11 +30,6 @@ struct Route {
 
 		Info(std::string b, bool is, std::list<std::string> stps);
 	};
-
-	using InfoPtr = std::unique_ptr<Info>;
-
-	static InfoPtr Parser(std::string bus, std::string unparsed_stops);
-
 	struct Stats {
 		size_t n_stops = 0;
 		size_t n_unique_stops = 0;
@@ -46,15 +37,16 @@ struct Route {
 		double route_length_true = 0;
 		double curvature = 1;
 
-		Stats(const Info* info, const Stops* stops, const RouteManager* rm);
+		Stats(const Info*, const Stops*, const Distances&);
 	};
+	using InfoPtr = std::unique_ptr<Info>;
 	using StatsPtr = std::shared_ptr<Stats>;
 
 	const InfoPtr info;
 	StatsPtr stats = nullptr;
 
 	Route(InfoPtr route_info);
-
-	void CalculateStats(const Stops* stops, const RouteManager* rm);
+	static InfoPtr Parser(std::string bus, std::string unparsed_stops);
+	void CalculateStats(const Stops*, const Distances&);
 };
 using RoutePtr = std::unique_ptr<Route>;

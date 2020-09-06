@@ -1,5 +1,4 @@
 #include "route.h"
-#include "requests.h"
 
 #include <list>
 #include <string>
@@ -8,6 +7,9 @@
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
+
+#include "requests.h"
+
 using namespace std;
 
 constexpr double PI = 3.1415926535;
@@ -146,14 +148,14 @@ double GetRouteLengthTrue(const Route::Info* info,
 	return route_length_true;
 }
 
-Route::Stats::Stats(const Info* info, const Stops* stops, const RouteManager* rm) {
+Route::Stats::Stats(const Info* info, const Stops* stops, const Distances& distances) {
 	unordered_set<string> unique_stops { info->stops.begin(), 
 																			 info->stops.end() };
 	n_unique_stops = unique_stops.size();
 	n_stops = (info->is_circular ? (info->stops.size() + 1) 
 			: (info->stops.size() * 2 - 1) );
 	route_length = GetRouteLength(info, stops);
-	route_length_true = GetRouteLengthTrue(info, rm->distances);
+	route_length_true = GetRouteLengthTrue(info, distances);
 	curvature = route_length_true / route_length;
 }
 
@@ -162,6 +164,6 @@ Route::Route(InfoPtr route_info)
 {
 }
 
-void Route::CalculateStats(const Stops* stops, const RouteManager* rm) {
-	stats = make_shared<Route::Stats>(info.get(), stops, rm);
+void Route::CalculateStats(const Stops* stops, const Distances& distances) {
+	stats = make_shared<Route::Stats>(info.get(), stops, distances);
 }
