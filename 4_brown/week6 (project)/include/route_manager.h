@@ -2,6 +2,11 @@
 #include "requests.h"
 #include "responses.h"
 
+struct RoutingSettings {
+	int bus_wait_time; // minutes
+	double bus_velocity; // km per hour
+}
+
 class RouteManager {
 	friend Route::Stats;
 private:
@@ -9,8 +14,11 @@ private:
 	std::unordered_map<std::string, RoutePtr> routes;
 	Stops stops;
 	Distances distances;
+	RoutingSettings routing_settings;
 
 public:
+	RouteManager() = default;
+	RouteManager(RoutingSettings rs) : routing_settings(rs) {}
 	void ProcessAddRequest(AddRequestPtr req);
 	ResponsePtr ProcessGetRequest(GetRequestPtr req);
 

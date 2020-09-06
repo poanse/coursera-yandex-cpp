@@ -4,41 +4,42 @@
 #include <sstream>
 using namespace std;
 
-//template <typename K, typename V>
-//ostream& operator<<(ostream& os, unordered_map<K,V> m) {
-	//os << "{ ";
-	//for (auto it = m.begin(); it != m.end(); it++) {
-		//os << it->first << ": " << it->second;
-	//}
-	//os << " }";
-	//return os;
-//}
-//ostream& operator<<(ostream& os, StopPair p) {
-	//os << p.stops.first << " - " << p.stops.second;
-	//return os;
-//}
+double GetDouble(const Json::Node& node) {
+	if (holds_alternative<double>(node)) {
+		return node.AsDouble();
+	} else if (holds_alternative<int>(node)) {
+		return = node.AsInt();
+	} else {
+		throw invalid_argument("Failde attempt to get numeric value from json node");
+	}
+}
+
+int GetInt(const Json::Node& node) {
+	if (holds_alternative<double>(node)) {
+		return node.AsDouble();
+	} else if (holds_alternative<int>(node)) {
+		return = node.AsInt();
+	} else {
+		throw invalid_argument("Failde attempt to get numeric value from json node");
+	}
+}
+
+RoutingSettings GetRoutingSettingsFromJson(const Json::Node& node) {
+	if (!holds_alternative<std::map<std::string, Node>>(node)) {
+		throw invalid_argument("Problem with parsing routing settings");
+	}
+	auto m = node.AsMap();
+	RoutingSettings rs;
+	rs.bus_wait_time = GetInt(m["bus_wait_time"]);
+	rs.bus_velocity = GetDouble(m["bus_velocity"]);
+	return rs;
+}
 
 AddStopRequestPtr GetAddStopRequestFromJson(const Json::Node& node) {
 	map<string, Json::Node> m = node.AsMap();
 	string name = m.at("name").AsString();
-	double latitude;
-	auto& lat_node = m.at("latitude");
-	if (holds_alternative<double>(lat_node)) {
-		latitude = lat_node.AsDouble();
-	} else if (holds_alternative<int>(lat_node)) {
-		latitude = lat_node.AsInt();
-	} else {
-		throw invalid_argument("");
-	}
-	double longitude;
-	auto& long_node = m.at("longitude");
-	if (holds_alternative<double>(long_node)) {
-		longitude = long_node.AsDouble();
-	} else if (holds_alternative<int>(long_node)) {
-		longitude = long_node.AsInt();
-	} else {
-		throw invalid_argument("");
-	}
+	double latitude = GetDouble(m.at("latitude"));
+	double longitude = GetDouble(m.at("longitude"));
 	StopPtr stop_ptr = make_unique<Stop>(name, latitude, longitude);
 
 	map<string, Json::Node> distances_map = m["road_distances"].AsMap();
@@ -78,7 +79,6 @@ AddRequestPtr GetAddRequestFromJson(const Json::Node& node) {
 			throw invalid_argument("");
 	}
 }
-
 
 //GetBusRequestPtr GetGetBusRequestFromJson(const Json::Node& node);
 //GetStopRequestPtr GetGetStopRequestFromJson(const Json::Node& node);
