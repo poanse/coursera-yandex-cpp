@@ -113,3 +113,13 @@ void GetStopResponse::ProcessJson(std::ostream& os) const {
 	}
 	os << '}';
 }
+
+void GetRouteResponse::ProcessJson(std::ostream& os) const {
+	for (auto& step : steps.value()) {
+		os << step.stop_from << ' ';
+		os << step.stop_to << ' ';
+		os << step.bus << ' ';
+		os << step.weight << ' ';
+		os << '\n';
+	}
+}

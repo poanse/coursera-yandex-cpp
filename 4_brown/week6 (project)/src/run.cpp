@@ -19,32 +19,39 @@ void RunJson(istream& is, ostream& os) {
 	auto add_requests = root.at("base_requests").AsArray();
 	for (const auto& add_req_node : add_requests) {
 		auto req_ptr = GetAddRequestFromJson(add_req_node);
+		// cerr << "AddRequest successfully read" << endl;
 		rm.ProcessAddRequest(move(req_ptr));
+		// cerr << "AddRequest successfully processed" << endl;
 	}
+	// cerr << "Router init started" << endl;
+	rm.InitRouter();
+	// cerr << "Router init successfully finished" << endl;
 	auto get_requests = root.at("stat_requests").AsArray();
 	vector<ResponsePtr> responses;
 	responses.reserve(get_requests.size());
 	for (const auto& get_req_node : get_requests) {
 		auto req_ptr = GetGetRequestFromJson(get_req_node);
+		// cerr << "GetRequest successfully read" << endl;
 		responses.push_back(rm.ProcessGetRequest(move(req_ptr)));
+		// cerr << "GetRequest successfully processed" << endl;
 	}
 	ProcessResponsesJson(os, responses);
 }
 
-void Run(istream& is, ostream& os) {
-	os << setprecision(20);
-	RouteManager rm;
-	size_t N, M;
-	is >> N;
-	ResponsePtr ptr;
-	for (size_t i = 0; i < N; i++) {
-		auto req_ptr = ReadAddRequest(is);
-		rm.ProcessAddRequest(move(req_ptr));
-	}
-	is >> M;
-	for (size_t i = 0; i < M; i++) {
-		auto req_ptr = ReadGetRequest(is);
-		auto ptr = rm.ProcessGetRequest(move(req_ptr));
-		ptr->Process(os);
-	}
-}
+// void Run(istream& is, ostream& os) {
+// 	os << setprecision(20);
+// 	RouteManager rm;
+// 	size_t N, M;
+// 	is >> N;
+// 	ResponsePtr ptr;
+// 	for (size_t i = 0; i < N; i++) {
+// 		auto req_ptr = ReadAddRequest(is);
+// 		rm.ProcessAddRequest(move(req_ptr));
+// 	}
+// 	is >> M;
+// 	for (size_t i = 0; i < M; i++) {
+// 		auto req_ptr = ReadGetRequest(is);
+// 		auto ptr = rm.ProcessGetRequest(move(req_ptr));
+// 		ptr->Process(os);
+// 	}
+// }

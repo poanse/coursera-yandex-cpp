@@ -17,6 +17,7 @@ class AddStopRequest;
 class GetRequest;
 class GetBusRequest;
 class GetStopRequest;
+class GetRouteRequest;
 
 using AddRequestPtr = std::unique_ptr<AddRequest>;
 using AddRouteRequestPtr = std::unique_ptr<AddRouteRequest>;
@@ -25,6 +26,7 @@ using AddStopRequestPtr = std::unique_ptr<AddStopRequest>;
 using GetRequestPtr = std::unique_ptr<GetRequest>;
 using GetBusRequestPtr = std::unique_ptr<GetBusRequest>;
 using GetStopRequestPtr = std::unique_ptr<GetStopRequest>;
+using GetRouteRequestPtr = std::unique_ptr<GetRouteRequest>;
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::set<T>& s);
@@ -43,9 +45,8 @@ AddRequest::Type GetAddRequestCode(const std::string& type);
 
 struct AddRouteRequest : AddRequest {
 	Route::InfoPtr route;
-
-	AddRouteRequest(AddRequest::Type type_, Route::InfoPtr ptr)
-		:	AddRequest(type_)
+	AddRouteRequest(Route::InfoPtr ptr)
+		:	AddRequest(AddRequest::Type::ADD_ROUTE)
 		, route(std::move(ptr))
 	{
 	}
@@ -54,7 +55,7 @@ struct AddRouteRequest : AddRequest {
 struct AddStopRequest : AddRequest {
 	StopPtr stop;
 	std::unordered_map<StopPair, int> distances;
-	AddStopRequest(AddRequest::Type, StopPtr, Distances);
+	AddStopRequest(StopPtr, std::unordered_map<StopPair, int>);
 };
 
 using Id = int;
@@ -63,7 +64,8 @@ using Buses = std::set<std::string>;
 struct GetRequest {
 	enum class Type {
 		GET_BUS_INFO,
-		GET_STOP_INFO
+		GET_STOP_INFO,
+		GET_ROUTE_INFO
 	};
 
 	GetRequest::Type type;
@@ -82,8 +84,8 @@ GetRequest::Type GetGetRequestCode(const std::string& type);
 struct GetBusRequest : GetRequest {
 	std::string bus;
 
-	GetBusRequest(GetRequest::Type type_, std::string b, Id id_ = 0)
-		: GetRequest(type_, id_)
+	GetBusRequest(Id id_, std::string b)
+		: GetRequest(GetRequest::Type::GET_BUS_INFO, id_)
 		, bus(b)
 	{
 	}
@@ -92,15 +94,28 @@ struct GetBusRequest : GetRequest {
 struct GetStopRequest : GetRequest {
 	std::string stop;
 
-	GetStopRequest(GetRequest::Type type_, std::string s, Id id_ = 0)
-		: GetRequest(type_, id_)
+	GetStopRequest(Id id_, std::string s)
+		: GetRequest(GetRequest::Type::GET_STOP_INFO, id_)
 		, stop(s)
 	{
 	}
 };
 
-AddRequestPtr ReadAddRequest(std::istream& is);
-GetRequestPtr ReadGetRequest(std::istream& is);
+struct GetRouteRequest : GetRequest {
+	std::string from;
+	std::string to;
+	GetRouteRequest(Id id_,
+									std::string from_, 
+									std::string to_)
+		: GetRequest(GetRequest::Type::GET_ROUTE_INFO, id_)
+		, from(std::move(from_))
+		, to(std::move(to_))
+	{
+	}
+};
+
+// AddRequestPtr ReadAddRequest(std::istream& is);
+// GetRequestPtr ReadGetRequest(std::istream& is);
 
 std::ostream& operator<< (std::ostream&, AddRequest::Type);
 std::ostream& operator<< (std::ostream&, GetRequest::Type);

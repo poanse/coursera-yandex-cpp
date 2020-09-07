@@ -96,72 +96,50 @@ Route::InfoPtr Route::Parser(string bus, string unparsed_stops) {
 }
 
 double GetRouteLength(const Route::Info* info, const Stops* stops) {
-	double route_length = 0;
-	for (auto it = info->stops.begin(); it != prev(info->stops.end()); it++) {
-		route_length += Stop::ComputeDistance( stops->at(*it).get(), 
-																					 stops->at(*next(it)).get() );
+	if (info->stops.empty()) {
+		return 0;
 	}
-	if (info->is_circular) {
+	double route_length = 0;
+	for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
 		route_length += Stop::ComputeDistance( 
-				stops->at(info->stops.back()).get(), 
-				stops->at(info->stops.front()).get()
+			stops->at(*prev(it)).get(), 
+			stops->at(*it).get() 
 		);
-	} else {
+	}
+	if (!info->is_circular) {
 		route_length *= 2;
 	}
 	return route_length;
 }
 
-int GetStopsDistanceTrue(const string& stop1, const string& stop2, 
-		const unordered_map<StopPair, int>& distances) {
-	int stop_distance = 0;
-	auto it1 = distances.find(StopPair(stop1, stop2));
-	if (it1 != distances.end()) {
-		stop_distance = it1->second;
-	} else {
-		stop_distance = distances.at(StopPair(stop2, stop1));
-	}
-	return stop_distance;
+inline int GetStopsDistanceTrue(const string& stop1, const string& stop2, 
+		const Distances& distances) {
+	return distances.GetDistance(stop1, stop2);
 }
 
 double GetRouteLengthTrue(const Route::Info* info,	
-		const unordered_map<StopPair, int>& distances) {
+		const Distances& distances) {
+	if (info->stops.empty()) {
+		return 0;
+	}
 	double route_length_true = 0;
-	if (info->is_circular) {
-		for (auto it = info->stops.begin(); 
-				 it != prev(info->stops.end()); 
-				 it++) 
-		{
-			route_length_true += GetStopsDistanceTrue(*it, *next(it), distances);
-		}
-		route_length_true += 
-			GetStopsDistanceTrue(info->stops.back(), info->stops.front(), distances);
-	} else {
-		for (auto it = info->stops.begin(); 
-				 it != prev(info->stops.end()); 
-				 it++) 
-		{
-			route_length_true += GetStopsDistanceTrue(*it, *next(it), distances);
-			route_length_true += GetStopsDistanceTrue(*next(it), *it, distances);
+	for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
+		route_length_true += GetStopsDistanceTrue(*prev(it), *it, distances);
+		if (!info->is_circular) {
+			route_length_true += GetStopsDistanceTrue(*it, *prev(it), distances);
 		}
 	}
 	return route_length_true;
 }
 
-Route::Stats::Stats(const Info* info, const Stops* stops, const Distances& distances) {
-	unordered_set<string> unique_stops { info->stops.begin(), 
-																			 info->stops.end() };
-	n_unique_stops = unique_stops.size();
-	n_stops = (info->is_circular ? (info->stops.size() + 1) 
-			: (info->stops.size() * 2 - 1) );
-	route_length = GetRouteLength(info, stops);
-	route_length_true = GetRouteLengthTrue(info, distances);
-	curvature = route_length_true / route_length;
-}
-
-Route::Route(InfoPtr route_info)
-	:	info(move(route_info))
+Route::Stats::Stats(const Info* info, const Stops* stops, const Distances& distances) 
+	: route_length(GetRouteLength(info, stops))
+	, route_length_true(GetRouteLengthTrue(info, distances))
+	, curvature(route_length_true / route_length)
+	, n_stops(info->is_circular ? info->stops.size() : info->stops.size()*2 - 1)
 {
+	set<string> unique_stops { info->stops.begin(), info->stops.end() };
+	n_unique_stops = unique_stops.size();
 }
 
 void Route::CalculateStats(const Stops* stops, const Distances& distances) {

@@ -1,14 +1,17 @@
 #include "json.h"
 #include "requests.h"
+#include "route_manager.h"
+
 #include <iostream>
 #include <sstream>
+
 using namespace std;
 
 double GetDouble(const Json::Node& node) {
 	if (holds_alternative<double>(node)) {
 		return node.AsDouble();
 	} else if (holds_alternative<int>(node)) {
-		return = node.AsInt();
+		return node.AsInt();
 	} else {
 		throw invalid_argument("Failde attempt to get numeric value from json node");
 	}
@@ -18,14 +21,14 @@ int GetInt(const Json::Node& node) {
 	if (holds_alternative<double>(node)) {
 		return node.AsDouble();
 	} else if (holds_alternative<int>(node)) {
-		return = node.AsInt();
+		return node.AsInt();
 	} else {
 		throw invalid_argument("Failde attempt to get numeric value from json node");
 	}
 }
 
 RoutingSettings GetRoutingSettingsFromJson(const Json::Node& node) {
-	if (!holds_alternative<std::map<std::string, Node>>(node)) {
+	if (!holds_alternative<std::map<std::string, Json::Node>>(node)) {
 		throw invalid_argument("Problem with parsing routing settings");
 	}
 	auto m = node.AsMap();
@@ -47,8 +50,7 @@ AddStopRequestPtr GetAddStopRequestFromJson(const Json::Node& node) {
 	for (auto it = distances_map.begin(); it != distances_map.end(); it++) {
 		dist[StopPair(name, it->first)] = it->second.AsInt();
 	}
-	return make_unique<AddStopRequest>(AddRequest::Type::ADD_STOP, 
-			move(stop_ptr), move(dist) );
+	return make_unique<AddStopRequest>(move(stop_ptr), move(dist));
 }
 
 AddRouteRequestPtr GetAddRouteRequestFromJson(const Json::Node& node) {
@@ -59,11 +61,11 @@ AddRouteRequestPtr GetAddRouteRequestFromJson(const Json::Node& node) {
 	for (auto stop_node : m.at("stops").AsArray()) {
 		stops.push_back(stop_node.AsString());
 	}
-	if (is_circular) {
-		stops.pop_back();
-	}
+	// if (is_circular) {
+	// 	stops.pop_back();
+	// }
 	Route::InfoPtr route_ptr = make_unique<Route::Info>(bus, is_circular, stops);
-	return make_unique<AddRouteRequest>( AddRequest::Type::ADD_ROUTE, move(route_ptr) );
+	return make_unique<AddRouteRequest>(move(route_ptr) );
 }
 
 AddRequestPtr GetAddRequestFromJson(const Json::Node& node) {
@@ -80,20 +82,18 @@ AddRequestPtr GetAddRequestFromJson(const Json::Node& node) {
 	}
 }
 
-//GetBusRequestPtr GetGetBusRequestFromJson(const Json::Node& node);
-//GetStopRequestPtr GetGetStopRequestFromJson(const Json::Node& node);
-
 GetRequestPtr GetGetRequestFromJson(const Json::Node& node) {
 	map<string, Json::Node> m = node.AsMap();
-	string type = m.at("type").AsString();
-	string name = m.at("name").AsString();
 	int id = m.at("id").AsInt();
-	GetRequest::Type get_request_code = GetGetRequestCode(type);
-	switch (get_request_code) {
+	string type = m.at("type").AsString();
+	GetRequest::Type request_code = GetGetRequestCode(type);
+	switch (request_code) {
 		case GetRequest::Type::GET_BUS_INFO:
-			return make_unique<GetBusRequest>(get_request_code, name, id);
+			return make_unique<GetBusRequest>(id, m.at("name").AsString());
 		case GetRequest::Type::GET_STOP_INFO:
-			return make_unique<GetStopRequest>(get_request_code, name, id);
+			return make_unique<GetStopRequest>(id, m.at("name").AsString());
+		case GetRequest::Type::GET_ROUTE_INFO:
+			return make_unique<GetRouteRequest>(id, m.at("from").AsString(), m.at("to").AsString());
 		default:
 			throw invalid_argument("");
 	}

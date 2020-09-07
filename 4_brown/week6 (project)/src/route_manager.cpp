@@ -50,6 +50,8 @@ ResponsePtr RouteManager::ProcessGetRequest(GetRequestPtr req) {
 			return ProcessGetBusRequest(dynamic_cast<GetBusRequest*>(req.get()));
 		case GetRequest::Type::GET_STOP_INFO:
 			return ProcessGetStopRequest(dynamic_cast<GetStopRequest*>(req.get()));
+		case GetRequest::Type::GET_ROUTE_INFO:
+			return ProcessGetRouteRequest(dynamic_cast<GetRouteRequest*>(req.get()));
 	}
 	return {};
 }
@@ -81,4 +83,15 @@ pair<bool, set<string>> RouteManager::GetStopInfo(std::string stop) {
 		buses = it->second;
 	}
 	return {found, move(buses)};
+}
+
+GetRouteResponsePtr	RouteManager::ProcessGetRouteRequest(GetRouteRequest* req) {
+	optional<vector<RouteStep>> steps = rw.value().GetRoute(req->from, req->to);
+	return make_unique<GetRouteResponse>(move(steps), req->id);
+}
+
+
+void RouteManager::InitRouter() {
+	// rw = RouterWrapper(stops, routes, [this](const string& stop1, const string& stop2) -> double { return this->GetEdgeWeight(stop1, stop2);});
+	rw.emplace(stops, routes, distances, routing_settings);
 }
