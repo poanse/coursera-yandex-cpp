@@ -9,12 +9,12 @@
 namespace Json {
 
   struct Node : std::variant<
-    std::map<std::string, Node>,
-    std::vector<Node>,
-    std::string,
-    int,
-    double,
-    bool > 
+      std::map<std::string, Node>,
+      std::vector<Node>,
+      std::string,
+      int,
+      double,
+      bool > 
   {
   public:
     using variant::variant;

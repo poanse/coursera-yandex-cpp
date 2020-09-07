@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstdint>
 #include <iterator>
+#include <iostream>
 #include <optional>
 #include <unordered_map>
 #include <utility>
@@ -100,6 +101,7 @@ namespace Graph {
 
     const size_t vertex_count = graph.GetVertexCount();
     for (VertexId vertex_through = 0; vertex_through < vertex_count; ++vertex_through) {
+      // std::cerr << "started vertex_through " << vertex_through << " out of " << vertex_count << std::endl;  
       RelaxRoutesInternalDataThroughVertex(vertex_count, vertex_through);
     }
   }

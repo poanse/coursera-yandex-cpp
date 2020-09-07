@@ -18,22 +18,26 @@ void RunJson(istream& is, ostream& os) {
 	RouteManager rm(rs);
 	auto add_requests = root.at("base_requests").AsArray();
 	for (const auto& add_req_node : add_requests) {
+		// cerr << "AddRequest reading started...";
 		auto req_ptr = GetAddRequestFromJson(add_req_node);
-		// cerr << "AddRequest successfully read" << endl;
+		// cerr << " finished" << endl;
+		// cerr << "AddRequest processing started...";
 		rm.ProcessAddRequest(move(req_ptr));
-		// cerr << "AddRequest successfully processed" << endl;
+		// cerr << " finished" << endl;
 	}
-	// cerr << "Router init started" << endl;
+	// cerr << "Router init started...";
 	rm.InitRouter();
-	// cerr << "Router init successfully finished" << endl;
+	// cerr << " finished" << endl;
 	auto get_requests = root.at("stat_requests").AsArray();
 	vector<ResponsePtr> responses;
 	responses.reserve(get_requests.size());
 	for (const auto& get_req_node : get_requests) {
+		// cerr << "GetRequest reading started...";
 		auto req_ptr = GetGetRequestFromJson(get_req_node);
-		// cerr << "GetRequest successfully read" << endl;
+		// cerr << " finished" << endl;
+		// cerr << "GetRequest processing started...";
 		responses.push_back(rm.ProcessGetRequest(move(req_ptr)));
-		// cerr << "GetRequest successfully processed" << endl;
+		// cerr << " finished" << endl;
 	}
 	ProcessResponsesJson(os, responses);
 }

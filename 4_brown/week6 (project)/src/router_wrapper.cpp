@@ -1,5 +1,7 @@
 #include "router_wrapper.h"
 
+#include <iostream>
+
 using namespace std;
 
 bool Vertex::operator==(const Vertex& other) const {
@@ -16,9 +18,10 @@ RouterWrapper::RouterWrapper(
   : distances(distances_)
   , routing_settings(routing_settings_)
 {
-	for (auto& stop : stops) {
+  for (auto& stop : stops) {
 		AddShallowVertex(stop.first);
 	}
+  // cerr << "shallow vertexes added" << endl;
 	for (const auto& [bus, route_ptr] : routes) {
 		const auto& info = *(route_ptr->info);
 		if (info.stops.empty()) {
@@ -26,11 +29,15 @@ RouterWrapper::RouterWrapper(
 		}
 		AddRoute(bus, info);
 	}
+  // cerr << "routes added" << endl;
 	graph.emplace(GetVertexCount());
+  // cerr << "graph emplaces" << endl;
 	for (const auto& edge : GetEdges()) {
 		graph.value().AddEdge(edge);
 	}
+  // cerr << "graph edges added" << endl;
   router.emplace(graph.value());
+  // cerr << "router emplaced" << endl;
 }
 
 
@@ -38,8 +45,9 @@ optional<vector<RouteStep>> RouterWrapper::GetRoute(const string& stop1, const s
 {
   VertexId from = VertexIds.at({stop1, nullopt, nullopt});
   VertexId to = VertexIds.at({stop2, nullopt, nullopt});
-  std::optional<Graph::Router<double>::RouteInfo> route_info = router.value().BuildRoute(from, to);
   vector<RouteStep> steps;
+  if (from == to) return steps;
+  std::optional<Graph::Router<double>::RouteInfo> route_info = router.value().BuildRoute(from, to);
   if (route_info) {
     steps.reserve(route_info.value().edge_count);
     for (size_t edge_idx = 0; edge_idx < route_info.value().edge_count; edge_idx++) {
