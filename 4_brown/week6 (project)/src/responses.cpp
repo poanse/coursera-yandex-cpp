@@ -142,40 +142,56 @@ void GetRouteResponse::ProcessJson(std::ostream& os) const {
 	double total_weight = 0;
 	if (steps) {
 		// output for debugging
-		// for (auto& step : steps.value()) {
-		// 	std::cerr << step.stop_from << ' ';
-		// 	std::cerr << step.stop_to << ' ';
-		// 	std::cerr << step.bus << ' ';
-		// 	std::cerr << step.weight << ' ';
-		// 	std::cerr << '\n';
-		// }
-		if (!steps.value().empty()) {
-			for (auto it = steps.value().begin(); it!=steps.value().end();it++) {
-				if (it->stop_from == it->stop_to) {
-					if (it->weight == 0) {
-						items.push_back(std::move(item));
-					} else {
-						item["type"] = "Wait";
-						item["time"] = std::to_string(it->weight);
-						total_weight += it->weight;
-						item["stop_name"] = it->stop_from;
-						items.push_back(std::move(item));
-						item["bus"] = it->bus;
-					}
-				} else if (it->bus == item["bus"]) {
-					item["type"] = "Bus";
-					total_weight += it->weight;
-					item["time"] = std::to_string(atof(item["time"].c_str()) + it->weight);
-					item["span_count"] = std::to_string(atoi(item["span_count"].c_str()) + 1);
-				} else {
-					throw std::invalid_argument("Route steps parsing: unexpected branch");
-				}
-			}
-			if (!item.empty()) {
-				throw std::invalid_argument("Route steps parsing failed");
-			}
+		for (auto& step : steps.value()) {
+			total_weight += step.weight;
+
+			item["type"] = "Wait";
+			item["time"] = std::to_string(bus_wait_time);
+			item["stop_name"] = step.stop_from;
+			items.push_back(move(item));
+
+			item["type"] = "Bus";
+			item["span_count"] = std::to_string(step.stop_count);
+			item["time"] = std::to_string(step.weight - bus_wait_time);
+			item["bus"] = step.bus;
+			items.push_back(move(item));
+			// std::cerr << "Waiting for " << bus_wait_time;
+			// std::cerr << '\n';
+			// std::cerr << step.stop_from << ' ';
+			// std::cerr << step.stop_to << ' ';
+			// std::cerr << step.bus << ' ';
+			// std::cerr << step.weight - bus_wait_time << ' ';
+			// std::cerr << step.stop_count << ' ';
+			// std::cerr << '\n';
 		}
 	}
+	// 	if (!steps.value().empty()) {
+	// 		for (auto it = steps.value().begin(); it!=steps.value().end();it++) {
+	// 			if (it->stop_from == it->stop_to) {
+	// 				if (it->weight == 0) {
+	// 					items.push_back(std::move(item));
+	// 				} else {
+	// 					item["type"] = "Wait";
+	// 					item["time"] = std::to_string(it->weight);
+	// 					total_weight += it->weight;
+	// 					item["stop_name"] = it->stop_from;
+	// 					items.push_back(std::move(item));
+	// 					item["bus"] = it->bus;
+	// 				}
+	// 			} else if (it->bus == item["bus"]) {
+	// 				item["type"] = "Bus";
+	// 				total_weight += it->weight;
+	// 				item["time"] = std::to_string(atof(item["time"].c_str()) + it->weight);
+	// 				item["span_count"] = std::to_string(atoi(item["span_count"].c_str()) + 1);
+	// 			} else {
+	// 				throw std::invalid_argument("Route steps parsing: unexpected branch");
+	// 			}
+	// 		}
+	// 		if (!item.empty()) {
+	// 			throw std::invalid_argument("Route steps parsing failed");
+	// 		}
+	// 	}
+	// }
 
 	os << std::setprecision(6);
 	os << '{' << '\n';

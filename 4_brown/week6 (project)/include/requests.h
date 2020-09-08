@@ -28,8 +28,8 @@ using GetBusRequestPtr = std::unique_ptr<GetBusRequest>;
 using GetStopRequestPtr = std::unique_ptr<GetStopRequest>;
 using GetRouteRequestPtr = std::unique_ptr<GetRouteRequest>;
 
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::set<T>& s);
+// template<typename T>
+// std::ostream& operator<<(std::ostream& os, const std::set<T>& s);
 
 struct AddRequest {
 	enum class Type {

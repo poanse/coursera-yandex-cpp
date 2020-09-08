@@ -87,7 +87,7 @@ pair<bool, set<string>> RouteManager::GetStopInfo(std::string stop) {
 
 GetRouteResponsePtr	RouteManager::ProcessGetRouteRequest(GetRouteRequest* req) {
 	optional<vector<RouteStep>> steps = rw.value().GetRoute(req->from, req->to);
-	return make_unique<GetRouteResponse>(move(steps), req->id);
+	return make_unique<GetRouteResponse>(move(steps), req->id, routing_settings.bus_wait_time);
 }
 
 

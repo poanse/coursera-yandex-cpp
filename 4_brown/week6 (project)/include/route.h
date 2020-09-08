@@ -2,12 +2,12 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include <list>
+#include <vector>
 
 #include "stop_pair.h"
 #include "distances.h"
 
-std::list<std::string> SplitBySubstring (std::string str, std::string substr);
+std::vector<std::string> SplitBySubstring (std::string str, std::string substr);
 
 struct Stop {
 	std::string name;
@@ -25,9 +25,9 @@ struct Route {
 	struct Info {
 		std::string bus;
 		bool is_circular;
-		std::list<std::string> stops;
+		std::vector<std::string> stops;
 
-		Info(std::string b, bool is, std::list<std::string> stps);
+		Info(std::string b, bool is, std::vector<std::string> stops);
 	};
 	struct Stats {
 		double route_length = 0;

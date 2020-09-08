@@ -44,8 +44,14 @@ public:
 
 class GetRouteResponse : public Response {
 	std::optional<std::vector<RouteStep>> steps;
+	double bus_wait_time;
 public:
-	GetRouteResponse(std::optional<std::vector<RouteStep>> steps_, Id id_) : Response(id_), steps(steps_)	{}
+	GetRouteResponse(std::optional<std::vector<RouteStep>> steps_, Id id_, double bus_wt) 
+		: Response(id_)
+		, steps(steps_)
+		, bus_wait_time(bus_wt)	
+	{
+	}
 	~GetRouteResponse() override = default;
 	void Process(std::ostream& os) const override {}
 	void ProcessJson(std::ostream& os) const override;

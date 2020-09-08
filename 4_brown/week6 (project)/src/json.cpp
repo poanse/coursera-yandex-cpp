@@ -120,3 +120,28 @@ namespace Json {
   }
 
 }
+
+std::ostream& operator<<(std::ostream& os, const Json::Node& node) {
+	if (std::holds_alternative<double>(node)) {
+    double tmpd = node.AsDouble();
+    os << tmpd;
+  } else if (std::holds_alternative<bool>(node)) {
+    bool tmpb = node.AsBool();
+    os << tmpb;
+  } else if (std::holds_alternative<int>(node)) {
+    int tmpi = node.AsInt();
+    os << tmpi;
+  } else if (std::holds_alternative<std::string>(node)) {
+    std::string tmps = node.AsString();
+    os << tmps;
+  } else if (std::holds_alternative<std::vector<Json::Node>>(node)) {
+    auto tmpa = node.AsArray();
+    os << tmpa;
+  } else if (std::holds_alternative<std::map<std::string, Json::Node>>(node)) {
+    auto tmpm = node.AsMap();
+    os << tmpm;
+  } else {
+    os << "holds something else" << std::endl;
+  }
+  return os;
+}

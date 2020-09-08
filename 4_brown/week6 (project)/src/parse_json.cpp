@@ -7,7 +7,7 @@
 
 using namespace std;
 
-double GetDouble(const Json::Node& node) {
+double Json::GetDouble(const Json::Node& node) {
 	if (holds_alternative<double>(node)) {
 		return node.AsDouble();
 	} else if (holds_alternative<int>(node)) {
@@ -57,7 +57,7 @@ AddRouteRequestPtr GetAddRouteRequestFromJson(const Json::Node& node) {
 	map<string, Json::Node> m = node.AsMap();
 	string bus = m.at("name").AsString();
 	bool is_circular = m.at("is_roundtrip").AsBool();
-	std::list<std::string> stops;
+	std::vector<std::string> stops;
 	for (auto stop_node : m.at("stops").AsArray()) {
 		stops.push_back(stop_node.AsString());
 	}

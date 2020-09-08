@@ -17,6 +17,7 @@ namespace Json {
       bool > 
   {
   public:
+
     using variant::variant;
 
     const auto& AsArray() const {
@@ -51,4 +52,7 @@ namespace Json {
 
   Document Load(std::istream& input);
 
+  double GetDouble(const Json::Node& node);
 }
+
+std::ostream& operator<<(std::ostream& os, const Json::Node& node);

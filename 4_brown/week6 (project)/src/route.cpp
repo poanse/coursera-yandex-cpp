@@ -16,8 +16,8 @@ constexpr double PI = 3.1415926535;
 const int EARTH_RADIUS = 6371;
 // Implementation
 
-list<string> SplitBySubstring (string str, string substr) {
-	list<string> strings;
+vector<string> SplitBySubstring (string str, string substr) {
+	vector<string> strings;
 	for (size_t pos = str.find(substr); 
 			pos != string::npos; 
 			pos = str.find(substr)) {
@@ -69,10 +69,10 @@ double Stop::ComputeDistance(const Stop* lhs, const Stop* rhs) {
 	return ans*1000; 
 }
 
-Route::Info::Info(string b, bool is, list<string> stps)
+Route::Info::Info(string b, bool is, vector<string> stops_)
 	: bus(b)
 	, is_circular(is)
-	, stops(stps)
+	, stops(stops_)
 {
 	if (stops.empty()) {
 		throw invalid_argument("RouteInfo: list if stops is empty");
@@ -80,7 +80,7 @@ Route::Info::Info(string b, bool is, list<string> stps)
 }
 
 Route::InfoPtr Route::Parser(string bus, string unparsed_stops) {
-	list<string> stops;
+	vector<string> stops;
 	bool is_circular;
 	if (unparsed_stops.find('-') != string::npos) {
 		is_circular = false;
@@ -88,7 +88,7 @@ Route::InfoPtr Route::Parser(string bus, string unparsed_stops) {
 	} else if (unparsed_stops.find('>') != string::npos) {
 		is_circular = true;
 		stops = SplitBySubstring(move(unparsed_stops), " > ");
-		stops.pop_back();
+		// stops.pop_back();
 	} else {
 		throw std::invalid_argument("Can't parse string: \"" + unparsed_stops + "\"");
 	}
