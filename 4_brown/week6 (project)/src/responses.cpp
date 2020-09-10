@@ -193,7 +193,7 @@ void GetRouteResponse::ProcessJson(std::ostream& os) const {
 	// 	}
 	// }
 
-	os << std::setprecision(6);
+	os << std::setprecision(14);
 	os << '{' << '\n';
 	os << "\"request_id\": " << id << ',' << '\n';
 	if (steps) {

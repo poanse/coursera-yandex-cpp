@@ -125,6 +125,8 @@ std::ostream& operator<<(std::ostream& os, const Json::Node& node) {
 	if (std::holds_alternative<double>(node)) {
     double tmpd = node.AsDouble();
     os << tmpd;
+  } else if (std::holds_alternative<std::map<std::string, Json::Node>>(node)) {
+    os << node.AsMap();
   } else if (std::holds_alternative<bool>(node)) {
     bool tmpb = node.AsBool();
     os << tmpb;
@@ -137,9 +139,6 @@ std::ostream& operator<<(std::ostream& os, const Json::Node& node) {
   } else if (std::holds_alternative<std::vector<Json::Node>>(node)) {
     auto tmpa = node.AsArray();
     os << tmpa;
-  } else if (std::holds_alternative<std::map<std::string, Json::Node>>(node)) {
-    auto tmpm = node.AsMap();
-    os << tmpm;
   } else {
     os << "holds something else" << std::endl;
   }

@@ -31,7 +31,7 @@ struct Route {
 	};
 	struct Stats {
 		double route_length = 0;
-		double route_length_true = 0;
+		int route_length_true = 0;
 		double curvature = 1;
 		size_t n_stops = 0;
 		size_t n_unique_stops = 0;

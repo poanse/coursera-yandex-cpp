@@ -65,8 +65,8 @@ double Stop::ComputeDistance(const Stop* lhs, const Stop* rhs) {
 	double R = 6371; 
 		
 	// Calculate the result 
-	ans = ans * R; 
-	return ans*1000; 
+	ans *= R * 1000; 
+	return ans; 
 }
 
 Route::Info::Info(string b, bool is, vector<string> stops_)
@@ -117,12 +117,12 @@ inline int GetStopsDistanceTrue(const string& stop1, const string& stop2,
 	return distances.GetDistance(stop1, stop2);
 }
 
-double GetRouteLengthTrue(const Route::Info* info,	
+int GetRouteLengthTrue(const Route::Info* info,	
 		const Distances& distances) {
 	if (info->stops.empty()) {
 		return 0;
 	}
-	double route_length_true = 0;
+	int route_length_true = 0;
 	for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
 		route_length_true += GetStopsDistanceTrue(*prev(it), *it, distances);
 		if (!info->is_circular) {
