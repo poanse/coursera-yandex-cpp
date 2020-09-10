@@ -15,15 +15,15 @@ using namespace std;
 constexpr double PI = 3.1415926535;
 const int EARTH_RADIUS = 6371; // in km
 
-vector<string> SplitBySubstring (string str, string substr) {
+vector<string> SplitBySubstring (string_view str, string_view substr) {
 	vector<string> strings;
 	for (size_t pos = str.find(substr); 
 			pos != string::npos; 
 			pos = str.find(substr)) {
-		strings.push_back(str.substr(0, pos));
+		strings.push_back(string(str.substr(0, pos)));
 		str = str.substr(pos + substr.size());
 	}
-	strings.push_back(str.substr(0));
+	strings.push_back(string(str.substr(0)));
 	return strings;
 }
 
@@ -64,25 +64,24 @@ double Stop::ComputeDistance(const Stop* lhs, const Stop* rhs) {
 }
 
 Route::Info::Info(string b, bool is, vector<string> stops_)
-	: bus(b)
+	: bus(move(b))
 	, is_circular(is)
-	, stops(stops_)
+	, stops(move(stops_))
 {
 	if (stops.empty()) {
 		throw invalid_argument("RouteInfo: list if stops is empty");
 	}
 }
 
-Route::InfoPtr Route::Parser(string bus, string unparsed_stops) {
+Route::InfoPtr Route::Parser(const string& bus, const string& unparsed_stops) {
 	vector<string> stops;
 	bool is_circular;
 	if (unparsed_stops.find('-') != string::npos) {
 		is_circular = false;
-		stops = SplitBySubstring(move(unparsed_stops), " - ");
+		stops = SplitBySubstring(unparsed_stops, " - ");
 	} else if (unparsed_stops.find('>') != string::npos) {
 		is_circular = true;
-		stops = SplitBySubstring(move(unparsed_stops), " > ");
-		// stops.pop_back();
+		stops = SplitBySubstring(unparsed_stops, " > ");
 	} else {
 		throw std::invalid_argument("Can't parse string: \"" + unparsed_stops + "\"");
 	}
@@ -95,10 +94,8 @@ double GetRouteLength(const Route::Info* info, const Stops* stops) {
 	}
 	double route_length = 0;
 	for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
-		route_length += Stop::ComputeDistance( 
-			stops->at(*prev(it)).get(), 
-			stops->at(*it).get() 
-		);
+		route_length += Stop::ComputeDistance( stops->at(*prev(it)).get(), 
+																					 stops->at(*it).get() );
 	}
 	if (!info->is_circular) {
 		route_length *= 2;
@@ -117,9 +114,14 @@ int GetRouteLengthTrue(const Route::Info* info,
 		return 0;
 	}
 	int route_length_true = 0;
-	for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
-		route_length_true += GetStopsDistanceTrue(*prev(it), *it, distances);
-		if (!info->is_circular) {
+
+	if (info->is_circular) {
+		for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
+			route_length_true += GetStopsDistanceTrue(*prev(it), *it, distances);
+		}
+	} else {
+		for (auto it = next(info->stops.begin()); it != info->stops.end(); it++) {
+			route_length_true += GetStopsDistanceTrue(*prev(it), *it, distances);
 			route_length_true += GetStopsDistanceTrue(*it, *prev(it), distances);
 		}
 	}

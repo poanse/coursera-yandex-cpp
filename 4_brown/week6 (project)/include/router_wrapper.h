@@ -52,6 +52,8 @@ private:
 
 	VertexId AddStop(const std::string& stop);
 	double GetWeightFromDistance(double) const;
+	std::vector<RouteStep> GetStepsFromRoute(
+		const Graph::Router<double>::RouteInfo& route_info);
 
 	template<typename It>
 	void AddEdge(It from, It to, const std::string& bus);

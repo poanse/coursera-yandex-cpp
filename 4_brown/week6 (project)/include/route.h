@@ -7,7 +7,7 @@
 #include "stop_pair.h"
 #include "distances.h"
 
-std::vector<std::string> SplitBySubstring (std::string str, std::string substr);
+std::vector<std::string> SplitBySubstring (std::string_view str, std::string_view substr);
 
 struct Stop {
 	std::string name;
@@ -45,7 +45,7 @@ struct Route {
 	StatsPtr stats = nullptr;
 
 	Route(InfoPtr route_info)	:	info(move(route_info)) {}
-	static InfoPtr Parser(std::string bus, std::string unparsed_stops);
+	static InfoPtr Parser(const std::string& bus, const std::string& unparsed_stops);
 	void CalculateStats(const Stops*, const Distances&);
 };
 using RoutePtr = std::unique_ptr<Route>;
