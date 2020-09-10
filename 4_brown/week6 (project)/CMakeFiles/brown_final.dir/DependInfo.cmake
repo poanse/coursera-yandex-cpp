@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/responses.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final.dir/src/responses.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final.dir/src/route.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route_manager.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final.dir/src/route_manager.cpp.o"
+  "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/router_wrapper.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/run.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final.dir/src/run.cpp.o"
   "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp" "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles/brown_final.dir/src/tests.cpp.o"
   )

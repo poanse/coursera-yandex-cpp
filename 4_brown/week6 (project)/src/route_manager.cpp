@@ -86,12 +86,11 @@ pair<bool, set<string>> RouteManager::GetStopInfo(std::string stop) {
 }
 
 GetRouteResponsePtr	RouteManager::ProcessGetRouteRequest(GetRouteRequest* req) {
-	optional<vector<RouteStep>> steps = rw.value().GetRoute(req->from, req->to);
+	optional<vector<RouterWrapper::RouteStep>> steps = rw.value().GetRoute(req->from, req->to);
 	return make_unique<GetRouteResponse>(move(steps), req->id, routing_settings.bus_wait_time);
 }
 
 
 void RouteManager::InitRouter() {
-	// rw = RouterWrapper(stops, routes, [this](const string& stop1, const string& stop2) -> double { return this->GetEdgeWeight(stop1, stop2);});
 	rw.emplace(stops, routes, distances, routing_settings);
 }

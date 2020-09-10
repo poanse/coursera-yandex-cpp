@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/brown_final.dir/src/responses.cpp.o"
   "CMakeFiles/brown_final.dir/src/route.cpp.o"
   "CMakeFiles/brown_final.dir/src/route_manager.cpp.o"
+  "CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o"
   "CMakeFiles/brown_final.dir/src/run.cpp.o"
   "CMakeFiles/brown_final.dir/src/tests.cpp.o"
   "brown_final"

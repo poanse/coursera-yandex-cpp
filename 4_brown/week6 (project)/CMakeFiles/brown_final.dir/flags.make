@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I"/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/include"
 
-CXX_FLAGS =  -Wall -Werror -Wdelete-non-virtual-dtor -std=c++17 
+CXX_FLAGS =  -Wall -Werror -Wdelete-non-virtual-dtor -ggdb -std=c++17
 

@@ -13,8 +13,7 @@
 using namespace std;
 
 constexpr double PI = 3.1415926535;
-const int EARTH_RADIUS = 6371;
-// Implementation
+const int EARTH_RADIUS = 6371; // in km
 
 vector<string> SplitBySubstring (string str, string substr) {
 	vector<string> strings;
@@ -59,13 +58,8 @@ double Stop::ComputeDistance(const Stop* lhs, const Stop* rhs) {
 
 	ans = 2 * asin(sqrt(ans)); 
 
-	// Radius of Earth in  
-	// Kilometers, R = 6371 
-	// Use R = 3956 for miles 
-	double R = 6371; 
-		
 	// Calculate the result 
-	ans *= R * 1000; 
+	ans *= EARTH_RADIUS * 1000; // convert from km to m
 	return ans; 
 }
 

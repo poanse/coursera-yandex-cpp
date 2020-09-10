@@ -22,7 +22,6 @@ namespace Json {
       }
       result.push_back(LoadNode(input));
     }
-
     return Node(move(result));
   }
 
@@ -70,7 +69,6 @@ namespace Json {
 			}
 			line += c;
 		}
-    //getline(input, line, ' ');
 		if (line == "false") {
 			return Node(false);
 		} else if (line == "true") {

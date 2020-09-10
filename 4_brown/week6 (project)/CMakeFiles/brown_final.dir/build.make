@@ -167,9 +167,22 @@ CMakeFiles/brown_final.dir/src/route_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brown_final.dir/src/route_manager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/route_manager.cpp" -o CMakeFiles/brown_final.dir/src/route_manager.cpp.s
 
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: CMakeFiles/brown_final.dir/flags.make
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: src/router_wrapper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o -c "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/router_wrapper.cpp"
+
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brown_final.dir/src/router_wrapper.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/router_wrapper.cpp" > CMakeFiles/brown_final.dir/src/router_wrapper.cpp.i
+
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brown_final.dir/src/router_wrapper.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/router_wrapper.cpp" -o CMakeFiles/brown_final.dir/src/router_wrapper.cpp.s
+
 CMakeFiles/brown_final.dir/src/run.cpp.o: CMakeFiles/brown_final.dir/flags.make
 CMakeFiles/brown_final.dir/src/run.cpp.o: src/run.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/brown_final.dir/src/run.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/brown_final.dir/src/run.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/brown_final.dir/src/run.cpp.o -c "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/run.cpp"
 
 CMakeFiles/brown_final.dir/src/run.cpp.i: cmake_force
@@ -182,7 +195,7 @@ CMakeFiles/brown_final.dir/src/run.cpp.s: cmake_force
 
 CMakeFiles/brown_final.dir/src/tests.cpp.o: CMakeFiles/brown_final.dir/flags.make
 CMakeFiles/brown_final.dir/src/tests.cpp.o: src/tests.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/brown_final.dir/src/tests.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/brown_final.dir/src/tests.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/brown_final.dir/src/tests.cpp.o -c "/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/tests.cpp"
 
 CMakeFiles/brown_final.dir/src/tests.cpp.i: cmake_force
@@ -202,6 +215,7 @@ brown_final_OBJECTS = \
 "CMakeFiles/brown_final.dir/src/responses.cpp.o" \
 "CMakeFiles/brown_final.dir/src/route.cpp.o" \
 "CMakeFiles/brown_final.dir/src/route_manager.cpp.o" \
+"CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o" \
 "CMakeFiles/brown_final.dir/src/run.cpp.o" \
 "CMakeFiles/brown_final.dir/src/tests.cpp.o"
 
@@ -215,11 +229,12 @@ brown_final: CMakeFiles/brown_final.dir/src/requests.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/responses.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/route.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/route_manager.cpp.o
+brown_final: CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/run.cpp.o
 brown_final: CMakeFiles/brown_final.dir/src/tests.cpp.o
 brown_final: CMakeFiles/brown_final.dir/build.make
 brown_final: CMakeFiles/brown_final.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable brown_final"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable brown_final"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/brown_final.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

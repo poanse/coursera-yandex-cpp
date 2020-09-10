@@ -3,16 +3,6 @@
 #include <iostream>
 #include <map>
 
-//template<typename T>
-//std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
-	//auto it = s.begin();
-	//for (; it != prev(s.end()); it++) {
-		//os << *it << ' ';
-	//}
-	//os << *it;
-	//return os;
-//}
-
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
 	os << "[";
@@ -141,7 +131,6 @@ void GetRouteResponse::ProcessJson(std::ostream& os) const {
 	Item item;
 	double total_weight = 0;
 	if (steps) {
-		// output for debugging
 		for (auto& step : steps.value()) {
 			total_weight += step.weight;
 
@@ -155,6 +144,7 @@ void GetRouteResponse::ProcessJson(std::ostream& os) const {
 			item["time"] = std::to_string(step.weight - bus_wait_time);
 			item["bus"] = step.bus;
 			items.push_back(move(item));
+			// output for debugging
 			// std::cerr << "Waiting for " << bus_wait_time;
 			// std::cerr << '\n';
 			// std::cerr << step.stop_from << ' ';
@@ -165,33 +155,6 @@ void GetRouteResponse::ProcessJson(std::ostream& os) const {
 			// std::cerr << '\n';
 		}
 	}
-	// 	if (!steps.value().empty()) {
-	// 		for (auto it = steps.value().begin(); it!=steps.value().end();it++) {
-	// 			if (it->stop_from == it->stop_to) {
-	// 				if (it->weight == 0) {
-	// 					items.push_back(std::move(item));
-	// 				} else {
-	// 					item["type"] = "Wait";
-	// 					item["time"] = std::to_string(it->weight);
-	// 					total_weight += it->weight;
-	// 					item["stop_name"] = it->stop_from;
-	// 					items.push_back(std::move(item));
-	// 					item["bus"] = it->bus;
-	// 				}
-	// 			} else if (it->bus == item["bus"]) {
-	// 				item["type"] = "Bus";
-	// 				total_weight += it->weight;
-	// 				item["time"] = std::to_string(atof(item["time"].c_str()) + it->weight);
-	// 				item["span_count"] = std::to_string(atoi(item["span_count"].c_str()) + 1);
-	// 			} else {
-	// 				throw std::invalid_argument("Route steps parsing: unexpected branch");
-	// 			}
-	// 		}
-	// 		if (!item.empty()) {
-	// 			throw std::invalid_argument("Route steps parsing failed");
-	// 		}
-	// 	}
-	// }
 
 	os << std::setprecision(14);
 	os << '{' << '\n';

@@ -331,6 +331,33 @@ src/route_manager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/src/route_manager.cpp.s
 .PHONY : src/route_manager.cpp.s
 
+src/router_wrapper.o: src/router_wrapper.cpp.o
+
+.PHONY : src/router_wrapper.o
+
+# target to build an object file
+src/router_wrapper.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o
+.PHONY : src/router_wrapper.cpp.o
+
+src/router_wrapper.i: src/router_wrapper.cpp.i
+
+.PHONY : src/router_wrapper.i
+
+# target to preprocess a source file
+src/router_wrapper.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/src/router_wrapper.cpp.i
+.PHONY : src/router_wrapper.cpp.i
+
+src/router_wrapper.s: src/router_wrapper.cpp.s
+
+.PHONY : src/router_wrapper.s
+
+# target to generate assembly for a file
+src/router_wrapper.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brown_final.dir/build.make CMakeFiles/brown_final.dir/src/router_wrapper.cpp.s
+.PHONY : src/router_wrapper.cpp.s
+
 src/run.o: src/run.cpp.o
 
 .PHONY : src/run.o
@@ -415,6 +442,9 @@ help:
 	@echo "... src/route_manager.o"
 	@echo "... src/route_manager.i"
 	@echo "... src/route_manager.s"
+	@echo "... src/router_wrapper.o"
+	@echo "... src/router_wrapper.i"
+	@echo "... src/router_wrapper.s"
 	@echo "... src/run.o"
 	@echo "... src/run.i"
 	@echo "... src/run.s"

@@ -43,10 +43,10 @@ public:
 };
 
 class GetRouteResponse : public Response {
-	std::optional<std::vector<RouteStep>> steps;
+	std::optional<std::vector<RouterWrapper::RouteStep>> steps;
 	double bus_wait_time;
 public:
-	GetRouteResponse(std::optional<std::vector<RouteStep>> steps_, Id id_, double bus_wt) 
+	GetRouteResponse(std::optional<std::vector<RouterWrapper::RouteStep>> steps_, Id id_, double bus_wt) 
 		: Response(id_)
 		, steps(steps_)
 		, bus_wait_time(bus_wt)	

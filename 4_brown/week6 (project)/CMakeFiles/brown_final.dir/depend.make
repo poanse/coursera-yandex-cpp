@@ -9,52 +9,89 @@ CMakeFiles/brown_final.dir/src/main.cpp.o: include/run.h
 CMakeFiles/brown_final.dir/src/main.cpp.o: include/tests.h
 
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o: src/parse_json.cpp
+CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/json.h
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/requests.h
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/route.h
+CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/route_manager.h
+CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/parse_json.cpp.o: include/stop_pair.h
 
 CMakeFiles/brown_final.dir/src/requests.cpp.o: src/requests.cpp
+CMakeFiles/brown_final.dir/src/requests.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/requests.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/requests.cpp.o: include/requests.h
 CMakeFiles/brown_final.dir/src/requests.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/requests.cpp.o: include/route.h
+CMakeFiles/brown_final.dir/src/requests.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/requests.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/requests.cpp.o: include/stop_pair.h
 
 CMakeFiles/brown_final.dir/src/responses.cpp.o: src/responses.cpp
+CMakeFiles/brown_final.dir/src/responses.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/responses.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/responses.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/responses.cpp.o: include/route.h
+CMakeFiles/brown_final.dir/src/responses.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/responses.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/responses.cpp.o: include/stop_pair.h
 
 CMakeFiles/brown_final.dir/src/route.cpp.o: src/route.cpp
+CMakeFiles/brown_final.dir/src/route.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/route.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/route.cpp.o: include/requests.h
 CMakeFiles/brown_final.dir/src/route.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/route.cpp.o: include/route.h
+CMakeFiles/brown_final.dir/src/route.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/route.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/route.cpp.o: include/stop_pair.h
 
 CMakeFiles/brown_final.dir/src/route_manager.cpp.o: src/route_manager.cpp
+CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/requests.h
 CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/route.h
 CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/route_manager.h
+CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/route_manager.cpp.o: include/stop_pair.h
 
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: src/router_wrapper.cpp
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: include/graph.h
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: include/route.h
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: include/router_wrapper.h
+CMakeFiles/brown_final.dir/src/router_wrapper.cpp.o: include/stop_pair.h
+
 CMakeFiles/brown_final.dir/src/run.cpp.o: src/run.cpp
+CMakeFiles/brown_final.dir/src/run.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/run.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/json.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/parse_json.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/requests.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/route.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/route_manager.h
+CMakeFiles/brown_final.dir/src/run.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/run.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/run.h
 CMakeFiles/brown_final.dir/src/run.cpp.o: include/stop_pair.h
 
 CMakeFiles/brown_final.dir/src/tests.cpp.o: src/tests.cpp
+CMakeFiles/brown_final.dir/src/tests.cpp.o: include/distances.h
+CMakeFiles/brown_final.dir/src/tests.cpp.o: include/graph.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/json.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/parse_json.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/requests.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/responses.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/route.h
+CMakeFiles/brown_final.dir/src/tests.cpp.o: include/router.h
+CMakeFiles/brown_final.dir/src/tests.cpp.o: include/router_wrapper.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/run.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/stop_pair.h
 CMakeFiles/brown_final.dir/src/tests.cpp.o: include/test_runner.h

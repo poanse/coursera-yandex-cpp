@@ -6,47 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.cpp
-string
--
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/router_wrapper.cpp
+router_wrapper.h
+/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/router_wrapper.h
 iostream
 -
-iomanip
--
-requests.h
-/home/anton/repos/coursera-yandex-cpp/4_brown/week6 (project)/src/requests.h
 
-include/requests.h
-iostream
--
-iomanip
--
-optional
--
-memory
+include/distances.h
+string
 -
 unordered_map
 -
-set
--
 stop_pair.h
 include/stop_pair.h
-route.h
-include/route.h
-responses.h
-include/responses.h
 
-include/responses.h
-string
+include/graph.h
+cstdlib
 -
-iostream
--
-set
+deque
 -
 vector
 -
-route.h
-include/route.h
 
 include/route.h
 string
@@ -55,10 +35,48 @@ unordered_map
 -
 memory
 -
-list
+vector
 -
 stop_pair.h
 include/stop_pair.h
+distances.h
+include/distances.h
+
+include/router.h
+graph.h
+include/graph.h
+algorithm
+-
+cassert
+-
+cstdint
+-
+iterator
+-
+iostream
+-
+optional
+-
+unordered_map
+-
+utility
+-
+vector
+-
+
+include/router_wrapper.h
+router.h
+-
+route.h
+-
+distances.h
+-
+string
+-
+vector
+-
+memory
+-
 
 include/stop_pair.h
 string
