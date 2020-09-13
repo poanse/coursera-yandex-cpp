@@ -49,35 +49,6 @@ GetStopResponse::GetStopResponse(std::string stop_, bool found_,
 	}
 }
 
-void GetBusResponse::Process(std::ostream& os) const {
-	os << std::setprecision(7);
-	os << "Bus " << bus << ": ";
-	if (stats) {
-		os << stats->n_stops << " stops on route, " 
-			 << stats->n_unique_stops << " unique stops, "
-			 << stats->route_length_true << " route length, "
-			 << stats->curvature << " curvature" << '\n';
-	} else {
-		os << "not found\n";
-	}
-}
-
-void GetStopResponse::Process(std::ostream& os) const {
-	os << std::setprecision(6);
-	os << "Stop " << stop << ": ";
-	if (found) {
-		if (buses.size()) {
-			os << "buses " << buses << "\n";
-		} else {
-			os << "no buses\n";
-		}
-	} else {
-		os << "not found\n";
-	}
-}
-
-
-
 void GetBusResponse::ProcessJson(std::ostream& os) const {
 	os << std::setprecision(6);
 	os << '{' << '\n';
@@ -144,15 +115,6 @@ void GetRouteResponse::ProcessJson(std::ostream& os) const {
 			item["time"] = std::to_string(step.weight - bus_wait_time);
 			item["bus"] = step.bus;
 			items.push_back(move(item));
-			// output for debugging
-			// std::cerr << "Waiting for " << bus_wait_time;
-			// std::cerr << '\n';
-			// std::cerr << step.stop_from << ' ';
-			// std::cerr << step.stop_to << ' ';
-			// std::cerr << step.bus << ' ';
-			// std::cerr << step.weight - bus_wait_time << ' ';
-			// std::cerr << step.stop_count << ' ';
-			// std::cerr << '\n';
 		}
 	}
 

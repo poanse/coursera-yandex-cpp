@@ -61,9 +61,6 @@ AddRouteRequestPtr GetAddRouteRequestFromJson(const Json::Node& node) {
 	for (auto stop_node : m.at("stops").AsArray()) {
 		stops.push_back(stop_node.AsString());
 	}
-	// if (is_circular) {
-	// 	stops.pop_back();
-	// }
 	Route::InfoPtr route_ptr = make_unique<Route::Info>(bus, is_circular, stops);
 	return make_unique<AddRouteRequest>(move(route_ptr) );
 }

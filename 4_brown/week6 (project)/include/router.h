@@ -101,7 +101,6 @@ namespace Graph {
 
     const size_t vertex_count = graph.GetVertexCount();
     for (VertexId vertex_through = 0; vertex_through < vertex_count; ++vertex_through) {
-      // std::cerr << "started vertex_through " << vertex_through << " out of " << vertex_count << std::endl;  
       RelaxRoutesInternalDataThroughVertex(vertex_count, vertex_through);
     }
   }
@@ -136,5 +135,4 @@ namespace Graph {
   void Router<Weight>::ReleaseRoute(RouteId route_id) {
     expanded_routes_cache_.erase(route_id);
   }
-
 }

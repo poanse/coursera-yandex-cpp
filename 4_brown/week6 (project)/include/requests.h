@@ -111,8 +111,5 @@ struct GetRouteRequest : GetRequest {
 	}
 };
 
-// AddRequestPtr ReadAddRequest(std::istream& is);
-// GetRequestPtr ReadGetRequest(std::istream& is);
-
 std::ostream& operator<< (std::ostream&, AddRequest::Type);
 std::ostream& operator<< (std::ostream&, GetRequest::Type);

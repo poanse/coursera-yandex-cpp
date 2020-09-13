@@ -16,7 +16,6 @@ protected:
 	Id id;
 public:
 	Response(Id id_) : id(id_) {}
-	virtual void Process(std::ostream& os) const {};
 	virtual void ProcessJson(std::ostream& os) const {};
 	virtual ~Response() = default;
 };
@@ -27,7 +26,6 @@ class GetBusResponse : public Response {
 public:
 	GetBusResponse(Route::StatsPtr stats_, std::string bus_, Id);
 	~GetBusResponse() override = default;
-	void Process(std::ostream& os) const override;
 	void ProcessJson(std::ostream& os) const override;
 };
 
@@ -38,7 +36,6 @@ class GetStopResponse : public Response {
 public:
 	GetStopResponse(std::string, bool, Buses, Id);
 	~GetStopResponse() override = default;
-	void Process(std::ostream& os) const override;
 	void ProcessJson(std::ostream& os) const override;
 };
 
@@ -53,7 +50,6 @@ public:
 	{
 	}
 	~GetRouteResponse() override = default;
-	void Process(std::ostream& os) const override {}
 	void ProcessJson(std::ostream& os) const override;
 };
 
