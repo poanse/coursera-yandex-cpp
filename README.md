@@ -1,9 +1,11 @@
 # Yandex C++ specialization
 
-Решения задач специализации ["Искусство разработки на современном C++"](https://www.coursera.org/specializations/c-plus-plus-modern-development)
+My solutions for exercises for coursera specialization ["Искусство разработки на современном C++"](https://www.coursera.org/specializations/c-plus-plus-modern-development)
 
-- [x] 1. Белый пояс
-- [x] 2. Желтый пояс
-- [x] 3. Красный пояс
-- [x] 4. Коричневый пояс
-- [ ] 5. Черный пояс
+- [x] 1. White belt
+- [x] 2. Yellow belt
+- [x] 3. Red belt
+- [x] 4. Brown belt
+- [ ] 5. Black belt
+
+Of interest is the solution for the final project of the Brown belt: [transport catalog](https://github.com/poanse/coursera-yandex-cpp/tree/master/4_brown/week6%20(project)).
