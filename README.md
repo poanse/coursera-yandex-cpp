@@ -8,4 +8,4 @@ My solutions for assignments from coursera specialization ["Искусство �
 - [x] 4. Brown belt
 - [ ] 5. Black belt
 
-The most interesting part is probably the solution for the final project of the Brown belt: [transport catalog](https://github.com/poanse/coursera-yandex-cpp/tree/master/4_brown/week6%20(project)).
+The most interesting part is probably the transport catalog project, which is the final project of the Brown belt and is substantial part of the Black belt: [transport catalog](https://github.com/poanse/coursera-yandex-cpp/tree/master/project_transport_catalog).
