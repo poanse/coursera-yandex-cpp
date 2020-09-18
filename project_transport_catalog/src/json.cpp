@@ -4,7 +4,9 @@ using namespace std;
 
 namespace Json {
 
-  Document::Document(Node root) : root(move(root)) {
+  Document::Document(Node root) 
+  : root(move(root)) 
+  {
   }
 
   const Node& Document::GetRoot() const {
@@ -117,28 +119,50 @@ namespace Json {
     return Document{LoadNode(input)};
   }
 
-}
-
-std::ostream& operator<<(std::ostream& os, const Json::Node& node) {
-	if (std::holds_alternative<double>(node)) {
-    double tmpd = node.AsDouble();
-    os << tmpd;
-  } else if (std::holds_alternative<std::map<std::string, Json::Node>>(node)) {
-    os << node.AsMap();
-  } else if (std::holds_alternative<bool>(node)) {
-    bool tmpb = node.AsBool();
-    os << tmpb;
-  } else if (std::holds_alternative<int>(node)) {
-    int tmpi = node.AsInt();
-    os << tmpi;
-  } else if (std::holds_alternative<std::string>(node)) {
-    std::string tmps = node.AsString();
-    os << tmps;
-  } else if (std::holds_alternative<std::vector<Json::Node>>(node)) {
-    auto tmpa = node.AsArray();
-    os << tmpa;
-  } else {
-    os << "holds something else" << std::endl;
+  template <>
+  void PrintValue<std::string>(const std::string& value, std::ostream& output) {
+    output << '\"' << value << '\"';
   }
-  return os;
+
+  template <>
+  void PrintValue<bool>(const bool& value, std::ostream& output) {
+    output << std::boolalpha << value;
+  }
+
+  template <>
+  void PrintValue<std::vector<Node>>(const std::vector<Node>& nodes, std::ostream& output) {
+    output << '[';
+    bool first = true;
+    for (const auto& x : nodes) {
+      if (first) {
+        first = false;
+      } else {
+        output << ", ";
+      }
+      PrintNode(x, output);
+    }
+    output << ']';
+  }
+
+  template <>
+  void PrintValue<Dict>(const Dict& dict, std::ostream& output) {
+    output << '{';
+    bool first = true;
+    for (const auto& [key, value] : dict) {
+      if (first) {
+        first = false;
+      } else {
+        output << ", ";
+      }
+      PrintValue(key, output);
+      output << ": ";
+      PrintNode(value, output);
+    }
+    output << '}';
+  }
+  
+  void PrintNode(const Json::Node& node, std::ostream& output) {
+    std::visit([&output](const auto& value) { PrintValue(value, output); }, node.GetBase());
+  }
+
 }

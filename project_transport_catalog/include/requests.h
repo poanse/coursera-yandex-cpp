@@ -10,14 +10,14 @@
 #include "route.h"
 #include "responses.h"
 
-class AddRequest;
-class AddRouteRequest;
-class AddStopRequest;
+struct AddRequest;
+struct AddRouteRequest;
+struct AddStopRequest;
 
-class GetRequest;
-class GetBusRequest;
-class GetStopRequest;
-class GetRouteRequest;
+struct GetRequest;
+struct GetBusRequest;
+struct GetStopRequest;
+struct GetRouteRequest;
 
 using AddRequestPtr = std::unique_ptr<AddRequest>;
 using AddRouteRequestPtr = std::unique_ptr<AddRouteRequest>;

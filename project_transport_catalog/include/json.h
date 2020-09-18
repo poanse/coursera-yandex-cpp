@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ios>
 #include <istream>
 #include <map>
 #include <string>
@@ -7,9 +8,11 @@
 #include <vector>
 
 namespace Json {
+  struct Node;
+  using Dict = std::map<std::string, Node>;
 
   struct Node : std::variant<
-      std::map<std::string, Node>,
+      Dict,
       std::vector<Node>,
       std::string,
       int,
@@ -19,6 +22,7 @@ namespace Json {
   public:
 
     using variant::variant;
+    const variant& GetBase() const { return *this; }
 
     const auto& AsArray() const {
       return std::get<std::vector<Node>>(*this);
@@ -53,6 +57,23 @@ namespace Json {
   Document Load(std::istream& input);
 
   double GetDouble(const Json::Node& node);
-}
 
-std::ostream& operator<<(std::ostream& os, const Json::Node& node);
+  template <typename Value>
+  void PrintValue(const Value& value, std::ostream& output) {
+    output << value;
+  }
+
+  template <>
+  void PrintValue<std::string>(const std::string& value, std::ostream& output);
+
+  template <>
+  void PrintValue<bool>(const bool& value, std::ostream& output);
+
+  template <>
+  void PrintValue<std::vector<Node>>(const std::vector<Node>& nodes, std::ostream& output);
+
+  template <>
+  void PrintValue<Dict>(const Dict& dict, std::ostream& output);
+
+  void PrintNode(const Json::Node& node, std::ostream& output);
+}

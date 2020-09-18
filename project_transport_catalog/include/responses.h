@@ -4,6 +4,7 @@
 #include <set>
 #include <vector>
 
+#include "json.h"
 #include "route.h"
 #include "distances.h"
 #include "router_wrapper.h"
@@ -16,7 +17,7 @@ protected:
 	Id id;
 public:
 	Response(Id id_) : id(id_) {}
-	virtual void ProcessJson(std::ostream& os) const {};
+	virtual Json::Node GetJson() const = 0;
 	virtual ~Response() = default;
 };
 
@@ -26,7 +27,7 @@ class GetBusResponse : public Response {
 public:
 	GetBusResponse(Route::StatsPtr stats_, std::string bus_, Id);
 	~GetBusResponse() override = default;
-	void ProcessJson(std::ostream& os) const override;
+	Json::Node GetJson() const override;
 };
 
 class GetStopResponse : public Response {
@@ -36,7 +37,7 @@ class GetStopResponse : public Response {
 public:
 	GetStopResponse(std::string, bool, Buses, Id);
 	~GetStopResponse() override = default;
-	void ProcessJson(std::ostream& os) const override;
+	Json::Node GetJson() const override;
 };
 
 class GetRouteResponse : public Response {
@@ -50,7 +51,7 @@ public:
 	{
 	}
 	~GetRouteResponse() override = default;
-	void ProcessJson(std::ostream& os) const override;
+	Json::Node GetJson() const override;
 };
 
 using ResponsePtr = std::unique_ptr<Response>;
